@@ -22,8 +22,8 @@
   <dependencies>
     <dependency>
       <groupId>com.group9</groupId>
-       <artifactId>clean-sweep</artifactId>
-        <version>${com.group9.cleansweep.version}</version>
+      <artifactId>clean-sweep</artifactId>
+      <version>${com.group9.cleansweep.version}</version>
 	</dependency>
   </dependencies>
 </project>
