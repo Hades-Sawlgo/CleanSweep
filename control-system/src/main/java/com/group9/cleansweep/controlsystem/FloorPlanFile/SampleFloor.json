@@ -1,0 +1,110 @@
+[
+	{
+	    "id": "a1",
+	    "surfaceType": "BARE_FOOT", 
+	    "isObstable": false,
+	    "dirtAmount": 0,
+	    "isChargingStation": true,
+	    "visited": false,
+	    "rightID": "a2",
+	    "leftID": null,
+	    "topID": null,
+	    "bottomID": "b1"
+	  },
+	{
+	    "id": "a2",
+	    "surfaceType": "BARE_FOOT", 
+	    "isObstable": false,
+	    "dirtAmount": 0,
+	    "isChargingStation": false,
+	    "visited": false,
+	    "rightID": "a3",
+	    "leftID": "a1",
+	    "topID": null,
+	    "bottomID": "b2"
+	  },
+	{
+	    "id": "a3",
+	    "surfaceType": "LOW_PILE_CARPET", 
+	    "isObstable": false,
+	    "dirtAmount": 0,
+	    "isChargingStation": true,
+	    "visited": false,
+	    "rightID": null,
+	    "leftID": "a2",
+	    "topID": null,
+	    "bottomID": "b3"
+	  },
+	{
+	    "id": "b1",
+	    "surfaceType": "BARE_FOOT", 
+	    "isObstable": false,
+	    "dirtAmount": 0,
+	    "isChargingStation": false,
+	    "visited": false,
+	    "rightID": "b2",
+	    "leftID": null,
+	    "topID": "a1",
+	    "bottomID": "c1"
+	  },
+	{
+	    "id": "b2",
+	    "surfaceType": "BARE_FOOT", 
+	    "isObstable": false,
+	    "dirtAmount": 0,
+	    "isChargingStation": false,
+	    "visited": false,
+	    "rightID": "b3",
+	    "leftID": "b1",
+	    "topID": "a2",
+	    "bottomID": "c2"
+	  },
+	{
+	    "id": "b3",
+	    "surfaceType": "LOW_PILE_CARPET", 
+	    "isObstable": false,
+	    "dirtAmount": 0,
+	    "isChargingStation": false,
+	    "visited": false,
+	    "rightID": null,
+	    "leftID": "b2",
+	    "topID": "a3",
+	    "bottomID": "c3"
+	  },
+	  	{
+	    "id": "c1",
+	    "surfaceType": "HIGH_PILE_CARPET", 
+	    "isObstable": true,
+	    "dirtAmount": 0,
+	    "isChargingStation": false,
+	    "visited": false,
+	    "rightID": "c2",
+	    "leftID": null,
+	    "topID": "b1",
+	    "bottomID": null
+	  },
+	{
+	    "id": "c2",
+	    "surfaceType": "HIGH_PILE_CARPET", 
+	    "isObstable": true,
+	    "dirtAmount": 0,
+	    "isChargingStation": false,
+	    "visited": false,
+	    "rightID": "c3",
+	    "leftID": "c1",
+	    "topID": "b2",
+	    "bottomID": null
+	  },
+	{
+	    "id": "c3",
+	    "surfaceType": "LOW_PILE_CARPET", 
+	    "isObstable": false,
+	    "dirtAmount": 0,
+	    "isChargingStation": false,
+	    "visited": false,
+	    "rightID": null,
+	    "leftID": "c2",
+	    "topID": "b3",
+	    "bottomID": null
+	  }
+]
