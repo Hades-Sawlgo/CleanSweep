@@ -5,7 +5,7 @@ import java.util.Random;
 
 import com.group9.cleansweep.FloorPlan;
 import com.group9.cleansweep.Tile;
-import com.group9.sensor_simulator.Enum.DirtAmountEnum;
+import com.group9.sensor_simulator.enums.DirtAmountEnum;
 
 public class DirtSensor {
 	public Map<String, Tile> setRandomDirt(FloorPlan floorPlan) {

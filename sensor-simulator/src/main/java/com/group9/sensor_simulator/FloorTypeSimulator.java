@@ -1,14 +1,14 @@
 package com.group9.sensor_simulator;
 
-import java.util.Random;
+import java.security.SecureRandom;
 
 public class FloorTypeSimulator {
 	private static FloorTypeSimulator instance = null;
 	private final String[] floorTypes = {"BARE_FOOT", "LOW_PILE_CARPET", "HIGH_PILE_CARPET"};
-	private final Random random;
+	private final SecureRandom random;
 
 	private FloorTypeSimulator(){
-		random = new Random();
+		random = new SecureRandom();
 	}
 
 	public static FloorTypeSimulator getInstance(){

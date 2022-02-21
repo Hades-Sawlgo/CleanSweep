@@ -5,8 +5,9 @@ import com.group9.cleansweep.Tile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.Map;
-import java.util.Stack;
 
 public class Navigation {
 
@@ -14,13 +15,13 @@ public class Navigation {
 
 	// This is where the stack/queue would be for tiles that have been visited.
 	// Need a method that returns boolean for is cleaning done.
-	Stack<Tile> visited;
+	Deque<Tile> visited;
 	Tile currentPos = new Tile();
 	FloorPlan floorPlan;
 	Map<String, Tile> floorPlanMap;
 
 	public Navigation(FloorPlan floorPlan) {
-		this.visited = new Stack<>();
+		this.visited = new ArrayDeque<>();
 		this.floorPlan = floorPlan;
 		this.floorPlanMap = floorPlan.getFloorPlanMap();
 
