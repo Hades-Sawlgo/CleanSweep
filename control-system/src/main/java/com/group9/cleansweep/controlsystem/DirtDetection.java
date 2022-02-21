@@ -15,7 +15,7 @@ import com.group9.cleansweep.Tile;
 import com.group9.sensor_simulator.DirtSensor;
 
 public class DirtDetection {
-	   private static Logger logger = LoggerFactory.getLogger(DirtDetection.class);
+	private static Logger logger = LoggerFactory.getLogger(DirtDetection.class);
 	@Getter
 	private static int totalDirtCapacity = 50;
 	@Getter
@@ -33,21 +33,19 @@ public class DirtDetection {
 	@Getter
 	@Setter
 	private boolean isMinimumPowerCapacityReached = false;
-	
-
 
 	public Map<String, Tile> setRandomDirt(FloorPlan floorPlan) {
-		
-		DirtSensor dirtSensor=new DirtSensor();
+
+		DirtSensor dirtSensor = new DirtSensor();
 		return dirtSensor.setRandomDirt(floorPlan);
 	}
 
 	public int cleanDirt(Tile tile, DirtDetection dirtDetection) {
 		int dirtAmount = tile.getDirtAmount();
-		 totalDirtCollected=dirtDetection.getTotalDirtCollected();
+		totalDirtCollected = dirtDetection.getTotalDirtCollected();
 		dirtCount = tile.getDirtAmount();
 		System.out.println("Total Dirt Amount of tile " + tile.getId() + ": " + tile.getDirtAmount());
-		
+
 		for (int i = dirtAmount; i >= 0; i--) {
 			if (tile.getDirtAmount() == 0) {
 				System.out.println("Tile " + tile.getId() + " is completely clean ");
@@ -63,11 +61,11 @@ public class DirtDetection {
 					logger.info("DIRT TANK FULL !!!Please empty the dirt tank !!");
 					logger.info("-------------------------------------------------");
 					emptyDirtTank();
-			
+
 				}
-				
+
 				tile.setDirtAmount(dirtCount);
-			    StringBuilder s1 = new StringBuilder(tile.getId() + " : " + dirtCount); 
+				StringBuilder s1 = new StringBuilder(tile.getId() + " : " + dirtCount);
 				logger.info("Current Dirt Amount of " + s1);
 			}
 
