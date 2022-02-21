@@ -5,15 +5,14 @@ import static org.junit.Assert.assertTrue;
 import java.util.Map;
 
 import org.junit.BeforeClass;
-import org.junit.FixMethodOrder;
-import org.junit.Ignore;
 import org.junit.Test;
-import org.junit.runners.MethodSorters;
 
 import com.group9.cleansweep.FloorPlan;
 import com.group9.cleansweep.Tile;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.TestMethodOrder;
 
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+@TestMethodOrder(MethodOrderer.Alphanumeric.class)
 public class DirtDetectionTest {
 
 	private static DirtDetection dirtDetection;
