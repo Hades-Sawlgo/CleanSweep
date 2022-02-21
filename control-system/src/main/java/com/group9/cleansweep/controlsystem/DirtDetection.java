@@ -74,6 +74,7 @@ public class DirtDetection {
 
 	}
 
+	
 	public void emptyDirtTank() {
 		totalDirtCollected = 0;
 		logger.info("Dirt tank emptied!! Clean sweep is ready to vacuum again..");
