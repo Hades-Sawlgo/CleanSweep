@@ -5,15 +5,19 @@ import lombok.Setter;
 
 import java.util.Map;
 import java.util.Random;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.Map.Entry;
 import com.group9.cleansweep.FloorPlan;
 import com.group9.cleansweep.Tile;
 import com.group9.sensor_simulator.DirtSensor;
 
 public class DirtDetection {
-
+	   private static Logger logger = LoggerFactory.getLogger(DirtDetection.class);
 	@Getter
-	private final int totalDirtCapacity = 50;
+	private final static int totalDirtCapacity = 50;
 	@Getter
 	@Setter
 	private int dirtCount;
@@ -29,7 +33,6 @@ public class DirtDetection {
 	@Getter
 	@Setter
 	private boolean isMinimumPowerCapacityReached = false;
-	private static DirtDetection dirtDetecting = new DirtDetection();
 	
 
 
@@ -41,7 +44,7 @@ public class DirtDetection {
 
 	public int cleanDirt(Tile tile, DirtDetection dirtDetection) {
 		int dirtAmount = tile.getDirtAmount();
-		int totalDirtCollected=dirtDetection.getTotalDirtCollected();
+		 totalDirtCollected=dirtDetection.getTotalDirtCollected();
 		dirtCount = tile.getDirtAmount();
 		System.out.println("Total Dirt Amount of tile " + tile.getId() + ": " + tile.getDirtAmount());
 		
@@ -56,16 +59,15 @@ public class DirtDetection {
 				isDirtCapacityFull = checkIfDirtCapacityFull(totalDirtCollected);
 
 				if (isDirtCapacityFull) {
-					StatusCheck statusCheck = new StatusCheck();
-					System.out.println("-------------------------------------------------");
-					System.out.println(" DIRT TANK FULL !!!Please empty the dirt tank !!!");
-					System.out.println("-------------------------------------------------");
+					logger.info("-------------------------------------------------");
+					logger.info("DIRT TANK FULL !!!Please empty the dirt tank !!");
+					logger.info("-------------------------------------------------");
 					emptyDirtTank();
 			
 				}
 				
 				tile.setDirtAmount(dirtCount);
-				System.out.println("Current Dirt Amount of " + tile.getId() + " : " + dirtCount);
+				logger.info("Current Dirt Amount of " + tile.getId() + " : " + dirtCount);
 			}
 
 		}
@@ -75,13 +77,12 @@ public class DirtDetection {
 
 	public void emptyDirtTank() {
 		totalDirtCollected = 0;
-
-		System.out.println("Dirt tank emptied!! Clean sweep is ready to vacuum again..");
+		logger.info("Dirt tank emptied!! Clean sweep is ready to vacuum again..");
 	}
 
 	public boolean checkIfDirtCapacityFull(int totalDirtCollected) {
 
-		return totalDirtCollected >= totalDirtCapacity ? true : false;
+		return totalDirtCollected >= totalDirtCapacity;
 	}
 
 }
