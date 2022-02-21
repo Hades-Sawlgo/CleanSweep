@@ -1,22 +1,22 @@
 package com.group9.cleansweep.controlsystem;
 
-import lombok.Getter;
+import com.group9.cleansweep.FloorPlan;
 import com.group9.cleansweep.Tile;
-import com.group9.sensor_simulator.ObstacleSimulator;
-
-import lombok.Setter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Map;
 import java.util.Stack;
-import com.group9.cleansweep.FloorPlan;
+
 public class Navigation {
-	// this is where the stack/queue would be for tiles that have been visited
-	// need a method that returns boolean for is cleaning done
+
+	private static Logger logger = LoggerFactory.getLogger(Navigation.class);
+
+	// This is where the stack/queue would be for tiles that have been visited.
+	// Need a method that returns boolean for is cleaning done.
 	Stack<Tile> visited;
 	Tile currentPos = new Tile();
 	FloorPlan floorPlan;
-	private Boolean ignoreIsVisited = false;
-
 	Map<String, Tile> floorPlanMap;
 
 	public Navigation(FloorPlan floorPlan) {
@@ -24,8 +24,8 @@ public class Navigation {
 		this.floorPlan = floorPlan;
 		this.floorPlanMap = floorPlan.getFloorPlanMap();
 
-		// Assuming charging station is start
-		// set current position to the charging station
+		// Assuming charging station is start.
+		// Set current position to the charging station.
 
 		for(Map.Entry<String, Tile> entry : floorPlanMap.entrySet()){
 			if(entry.getValue().isChargingStation()) {
@@ -38,98 +38,104 @@ public class Navigation {
 		}
 	}
 
+	// Always start with top and move through the other methods.
 	public Tile traverse(Tile target){
-		// always start with top and move through the other methods
 		return traverseTop(target);
 	}
 
 	private Tile traverseTop(Tile target) {
 		try {
-			if (isObstacleTop(target)) {
+			if (Boolean.TRUE.equals(isObstacleTop(target))) {
 				return traverseRight(target);
 			}
 			else if (target.getTopNext().isVisited()){
-				System.out.println("top tile already visited.  Trying Right.");
+				logger.info("top tile already visited. Trying Right.");
 				return traverseRight(target);
 			}
 			else {
-				{
-					System.out.println("Top direction is clear.  Proceeding.");
-					target.setVisited(true);
-					System.out.println("Traversed up from tile " + target.getId() + " to tile " + target.getTopNext().getId() + ".");
-					return target.getTopNext();
-				}
+				logger.info("Top direction is clear. Proceeding.");
+				target.setVisited(true);
+				String stringOutput = String.format("Traversed up from tile %s to tile %s.",
+						target.getId(), target.getTopNext().getId());
+				logger.info(stringOutput);
+				return target.getTopNext();
 			}
 		}
 		catch(NullPointerException e) {
-			System.out.println("Encountered a wall.  We'll try traversing to the right.");
+			logger.error("Encountered a wall. We'll try traversing to the right.");
 			return traverseRight(target);
 		}
 	}
 
 	private Tile traverseRight(Tile target) {
 		try {
-			if (isObstacleRight(target)) {
+			if (Boolean.TRUE.equals(isObstacleRight(target))) {
 				return traverseBottom(target);
 			}
 			else if (target.getRightNext().isVisited()){
-				System.out.println("Right tile already visited.  Trying bottom.");
+				logger.info("Right tile already visited. Trying bottom.");
 				return traverseBottom(target);
 			}
 			else {
-				System.out.println("Right direction is clear.  Proceeding.");
+				logger.info("Right direction is clear. Proceeding.");
 				target.setVisited(true);
-				System.out.println("Traversed right from tile " + target.getId() + " to tile " + target.getRightNext().getId() + ".");
+				String stringOutput = String.format("Traversed right from tile %s to tile %s.",
+						target.getId(), target.getRightNext().getId());
+				logger.info(stringOutput);
 				return target.getRightNext();
 			}
 		}
 		catch(NullPointerException e) {
-			System.out.println("Encountered a wall.  We'll try traversing Bottom.");
+			logger.error("Encountered a wall. We'll try traversing Bottom.");
 			return traverseBottom(target);
 		}
 	}
 
 	private Tile traverseBottom(Tile target){
 		try {
-			if (isObstacleBottom(target)) {
+			if (Boolean.TRUE.equals(isObstacleBottom(target))) {
 				return traverseLeft(target);
 			}
 			else if (target.getBottomNext().isVisited()){
-				System.out.println("Bottom tile already visited.  Trying Left.");
+				logger.info("Bottom tile already visited. Trying Left.");
 				return traverseLeft(target);
 			}
 			else {
-				System.out.println("Bottom direction is clear.  Proceeding.");
+				logger.info("Bottom direction is clear. Proceeding.");
 				target.setVisited(true);
-				System.out.println("Traversed down from tile " + target.getId() + " to tile " + target.getBottomNext().getId() + ".");
+				String stringOutput = String.format("Traversed down from tile %s to tile %s.",
+						target.getId(), target.getBottomNext().getId());
+				logger.info(stringOutput);
 				return target.getBottomNext();
 			}
 		}
 		catch(NullPointerException e) {
-			System.out.println("Encountered a wall.  We'll try traversing Left.");
+			logger.error("Encountered a wall. We'll try traversing Left.");
 			return traverseLeft(target);
 		}
 	}
 
 	private Tile traverseLeft(Tile target) {
 		try {
-			if (isObstacleLeft(target)) {
-				System.out.println("Clean Sweep encountered an obstacle on all sides.  Stopping.");
+			if (Boolean.TRUE.equals(isObstacleLeft(target))) {
+				logger.info("Clean Sweep encountered an obstacle on all sides. Stopping.");
 				return target;
 			}
 			else if (target.getLeftNext().isVisited()){
-				System.out.println("Left tile is already visited.  Returning to Charging station since all surrounding tiles are visited.");
+				logger.info("Left tile is already visited. Returning to Charging station since all surrounding tiles are visited.");
 				return target;
 			}
 			else {
-				System.out.println("Left direction is clear.  Proceeding.");
+				logger.info("Left direction is clear. Proceeding.");
 				target.setVisited(true);
-				System.out.println("Traversed down from tile " + target.getId() + " to tile " + target.getLeftNext().getId() + ".");
+				String stringOutput = String.format("Traversed left from tile %s to tile %s.",
+						target.getId(), target.getLeftNext().getId());
+				logger.info(stringOutput);
 				return target.getLeftNext();
 			}
 		}
 		catch(NullPointerException e) {
-			System.out.println("Encountered a wall.  Since all directions are checked, we'll stop here.");
+			logger.error("Encountered a wall. Since all directions are checked, we'll stop here.");
 			return target;
 		}
 	}
@@ -137,25 +143,25 @@ public class Navigation {
 
 
 	private Boolean isObstacleRight(Tile currentPos) {
-//		currentPos.getRightNext().setIsObstacle(ObstacleSimulator.getInstance().getRandomObstacle());
-		if(currentPos.getRightNext().getObstacle()) {
-			System.out.println("Detected tile " + currentPos.getRightNext().getId() + " as obstacle to the right. Checking Bottom Sensor");
+		if(Boolean.TRUE.equals(currentPos.getRightNext().getObstacle())) {
+			String stringOutput = String.format("Detected tile %s as obstacle to the right. Checking Bottom Sensor.", currentPos.getRightNext().getId());
+			logger.info(stringOutput);
 			return true;
 		} else return false;
 	}
 
 	private Boolean isObstacleLeft(Tile currentPos) {
-//		currentPos.getLeftNext().setIsObstacle(ObstacleSimulator.getInstance().getRandomObstacle());
-		if(currentPos.getLeftNext().getObstacle()) {
-			System.out.println("Detected tile " + currentPos.getLeftNext().getId() + " as obstacle to the left.");
+		if(Boolean.TRUE.equals(currentPos.getLeftNext().getObstacle())) {
+			String stringOutput = String.format("Detected tile %s as obstacle to the left. Checking Left Sensor.", currentPos.getLeftNext().getId());
+			logger.info(stringOutput);
 			return true;
 		} else return false;
 	}
 
 	private Boolean isObstacleTop(Tile currentPos) {
-//		currentPos.getTopNext().setIsObstacle(ObstacleSimulator.getInstance().getRandomObstacle());
-		if(currentPos.getTopNext().getObstacle()) {
-			System.out.println("Detected tile " + currentPos.getTopNext().getId() + " as obstacle above. Checking Right Sensor.");
+		if(Boolean.TRUE.equals(currentPos.getTopNext().getObstacle())) {
+			String stringOutput = String.format("Detected tile %s as obstacle above. Checking Right Sensor.", currentPos.getTopNext().getId());
+			logger.info(stringOutput);
 			return true;
 		} else {
 			return false;
@@ -163,58 +169,21 @@ public class Navigation {
 	}
 
 	private Boolean isObstacleBottom(Tile currentPos) {
-//		currentPos.getBottomNext().setIsObstacle(ObstacleSimulator.getInstance().getRandomObstacle());
-		if(currentPos.getBottomNext().getObstacle()) {
-			System.out.println("Detected tile " + currentPos.getBottomNext().getId() + " as obstacle below. Checking Left Sensor.");
+		if(Boolean.TRUE.equals(currentPos.getBottomNext().getObstacle())) {
+			String stringOutput = String.format("Detected tile %s as obstacle below. Checking Left Sensor.", currentPos.getBottomNext().getId());
+			logger.info(stringOutput);
 			return true;
 		} else return false;
 	}
 
-
-
-    // TODO: go back to power station
-	//  keep iterating back through stack, traversing back to charging station
-	// Still need to figure out algorithm for it
-	private void backToChargingStation() {
-
-	}
-
-
-
-
 	public boolean isCycleComplete() {
-		Tile checkTile = new Tile();
+		Tile checkTile;
 		Tile[] allTiles = floorPlan.getFloorPlanMap().values().toArray(new Tile[floorPlan.getFloorPlanMap().values().size()]);
 		for (int i = 0; i < allTiles.length; ) {
 			checkTile = allTiles[i];
-			if (checkTile.isVisited())
-				continue;
-			else
+			if (!checkTile.isVisited())
 				return false;
 		}
 		return true;
 	}
-
-	public void resetIgnoreIsVisited(){
-		ignoreIsVisited = false;
-	}
-
-	public void setIgnoreIsVisited(boolean b) {
-		ignoreIsVisited = b;
-	}
-
-	private boolean isIgnoreIsVisited() {
-		// TODO Auto-generated method stub
-		return ignoreIsVisited;
-	}
-
-	// vv Done vv
-
-	//print moved up one cell
-	//print moved left one cell
-	//print attempting to move up one cell
-	//print obstacle detected one cell up
-	//print attempting to move left one cell
-	//print moved left one cell
-	//return left Tile object
 }
