@@ -17,7 +17,7 @@ import com.group9.sensor_simulator.DirtSensor;
 public class DirtDetection {
 	   private static Logger logger = LoggerFactory.getLogger(DirtDetection.class);
 	@Getter
-	private final static int totalDirtCapacity = 50;
+	private static int totalDirtCapacity = 50;
 	@Getter
 	@Setter
 	private int dirtCount;
@@ -67,7 +67,8 @@ public class DirtDetection {
 				}
 				
 				tile.setDirtAmount(dirtCount);
-				logger.info("Current Dirt Amount of " + tile.getId() + " : " + dirtCount);
+			    StringBuilder s1 = new StringBuilder(tile.getId() + " : " + dirtCount); 
+				logger.info("Current Dirt Amount of " + s1);
 			}
 
 		}
