@@ -66,8 +66,7 @@ public class DirtDetection {
 				}
 
 				tile.setDirtAmount(dirtCount);
-				String stringOutput = String.format("Current Dirt Amount of %s : %s",
-						tile.getId(),dirtCount));
+				String stringOutput = String.format("Current Dirt Amount of %s : %s",tile.getId(),dirtCount);
 				logger.info(stringOutput);
 				
 			}
