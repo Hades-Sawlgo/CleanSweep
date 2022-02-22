@@ -5,6 +5,7 @@ import lombok.Setter;
 
 import java.util.Map;
 import java.util.Random;
+import java.util.logging.Level;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -66,7 +67,8 @@ public class DirtDetection {
 
 				tile.setDirtAmount(dirtCount);
 				StringBuilder s1 = new StringBuilder(tile.getId() + " : " + dirtCount);
-				logger.info("Current Dirt Amount of " + s1);
+				logger.info("Current Dirt Amount of "+tile.getId()+":"+ dirtCount);
+				
 			}
 
 		}
