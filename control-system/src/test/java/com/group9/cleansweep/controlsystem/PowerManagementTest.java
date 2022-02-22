@@ -42,10 +42,10 @@ public class PowerManagementTest {
 		String currentfloorPlanType2 = "LOW_PILE_CARPET";
 		String currentfloorPlanType3 = "HIGH_PILE_CARPET";
 		String previousfloorPlanType = "BARE_FOOT";
-		assertSame(1.0, powerManagement.getUnitOfCharge(currentfloorPlanType1));
-		assertSame(2.0, powerManagement.getUnitOfCharge(currentfloorPlanType2));
-		assertSame(3.0, powerManagement.getUnitOfCharge(currentfloorPlanType3));
-		assertSame(1.0, powerManagement.getUnitOfCharge(previousfloorPlanType));
+		assertSame(1.0d, powerManagement.getUnitOfCharge(currentfloorPlanType1));
+		assertSame(2.0d, powerManagement.getUnitOfCharge(currentfloorPlanType2));
+		assertSame(3.0d, powerManagement.getUnitOfCharge(currentfloorPlanType3));
+		assertSame(1.0d, powerManagement.getUnitOfCharge(previousfloorPlanType));
 
 	}
 
