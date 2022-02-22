@@ -13,7 +13,7 @@ public class InitFloorPlan {
  
 		initialFloorPlanObject = new ArrayList<>();
         for (int i = 0; i < 20; i++){
-            initialFloorPlanObject.add(new ArrayList<String>());
+            initialFloorPlanObject.add(new ArrayList<>());
             for (int j = 0; j < 20; j++){
                 initialFloorPlanObject.get(i).add("UNKNOWN");
             }

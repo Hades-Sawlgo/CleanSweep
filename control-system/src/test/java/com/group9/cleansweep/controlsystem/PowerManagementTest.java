@@ -1,6 +1,10 @@
 package com.group9.cleansweep.controlsystem;
 
+import static org.junit.Assert.assertEquals;
+
 import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertSame;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -38,10 +42,10 @@ public class PowerManagementTest {
 		String currentfloorPlanType2 = "LOW_PILE_CARPET";
 		String currentfloorPlanType3 = "HIGH_PILE_CARPET";
 		String previousfloorPlanType = "BARE_FOOT";
-		assertTrue(powerManagement.getUnitOfCharge(currentfloorPlanType1) == 1.0);
-		assertTrue(powerManagement.getUnitOfCharge(currentfloorPlanType2) == 2.0);
-		assertTrue(powerManagement.getUnitOfCharge(currentfloorPlanType3) == 3.0);
-		assertTrue(powerManagement.getUnitOfCharge(previousfloorPlanType) == 1.0);
+		assertSame(1.0, powerManagement.getUnitOfCharge(currentfloorPlanType1));
+		assertSame(2.0, powerManagement.getUnitOfCharge(currentfloorPlanType2));
+		assertSame(3.0, powerManagement.getUnitOfCharge(currentfloorPlanType3));
+		assertSame(1.0, powerManagement.getUnitOfCharge(previousfloorPlanType));
 
 	}
 
@@ -52,7 +56,7 @@ public class PowerManagementTest {
 
 		String currentfloorPlanType = "LOW_PILE_CARPET";
 		String previousfloorPlanType = "BARE_FOOT";
-		assertTrue(powerManagement.getAverageUnitOfCharge(currentfloorPlanType, previousfloorPlanType) == 1.5);
+		assertSame(1.5, powerManagement.getAverageUnitOfCharge(currentfloorPlanType, previousfloorPlanType));
 
 	}
 

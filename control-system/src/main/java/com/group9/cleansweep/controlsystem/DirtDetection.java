@@ -66,8 +66,9 @@ public class DirtDetection {
 				}
 
 				tile.setDirtAmount(dirtCount);
-				StringBuilder s1 = new StringBuilder(tile.getId() + " : " + dirtCount);
-				logger.info("Current Dirt Amount of "+tile.getId()+":"+ dirtCount);
+				String stringOutput = String.format("Current Dirt Amount of %s : %s",
+						tile.getId(),dirtCount));
+				logger.info(stringOutput);
 				
 			}
 
@@ -76,7 +77,6 @@ public class DirtDetection {
 
 	}
 
-	
 	public void emptyDirtTank() {
 		totalDirtCollected = 0;
 		logger.info("Dirt tank emptied!! Clean sweep is ready to vacuum again..");
