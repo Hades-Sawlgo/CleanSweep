@@ -4,7 +4,7 @@ import java.security.SecureRandom;
 
 
 public class ObstacleSimulator {
-    private static ObstacleSimulator obstacleSimulator_instance = null;
+    private static ObstacleSimulator obstacleSimulatorInstance = null;
     private final SecureRandom random;
     private final Boolean[] randomBool = {false, false, false, false, false, false, false, true, false, false, false, true, false, false, false, true, false, false};
     private ObstacleSimulator(){
@@ -12,10 +12,10 @@ public class ObstacleSimulator {
     }
 
     public static ObstacleSimulator getInstance(){
-        if(obstacleSimulator_instance == null){
-            obstacleSimulator_instance = new ObstacleSimulator();
+        if(obstacleSimulatorInstance == null){
+        	obstacleSimulatorInstance = new ObstacleSimulator();
         }
-        return  obstacleSimulator_instance;
+        return  obstacleSimulatorInstance;
     }
 
     public Boolean getRandomObstacle(){

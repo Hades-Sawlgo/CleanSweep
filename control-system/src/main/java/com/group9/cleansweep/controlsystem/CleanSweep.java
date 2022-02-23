@@ -125,7 +125,7 @@ public class CleanSweep {
 		logger.info("\nCurrent Dirt Amount per tile:\n");
 		for (Map.Entry<String, Tile> entry : floorPlanDirtMap.entrySet()) {
 
-			logger.info("Key = " + entry.getKey() + ", Dirt Amount = " + entry.getValue().getDirtAmount());
+			logger.info(String.format("Key = %s, Dirt Amount = %s", entry.getKey(), entry.getValue().getDirtAmount()));
 		}
 	}
 	
