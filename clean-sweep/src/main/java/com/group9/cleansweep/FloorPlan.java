@@ -1,26 +1,29 @@
 package com.group9.cleansweep;
 
-//import netscape.javascript.JSObject;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.group9.cleansweep.Enum.FloorPlanTypeEnum;
+
 import lombok.Getter;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.security.SecureRandom;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
 import java.util.UUID;
-import com.group9.cleansweep.Tile;
+import com.group9.cleansweep.enums.FloorPlanTypeEnum;
 
 public class FloorPlan {
+	
+	private static Logger logger = LoggerFactory.getLogger(FloorPlan.class);
+	
 	//this keeps track of all the tiles in a room String is the ID of the tile
 	private final Map<String, Tile> roomLayout;
-	private Map<String, Boolean> tileVisitedMap;
 	private final Boolean[] isObstacle = {true, false};
 	private final String[] floorTypes = {"BARE_FOOT", "LOW_PILE_CARPET", "HIGH_PILE_CARPET"};
 
@@ -64,80 +67,71 @@ public class FloorPlan {
 					tile.setBottomNext(roomLayout.get(surroundingTiles[3]));
 				}
 			}
-			System.out.println("Floor plan successfully loaded from file");
+			logger.info("Floor plan successfully loaded from file");
 		} catch (Exception e){
-			System.out.println(e);
+			logger.error("An error occured!", e);
 		}
 	}
 
 	public void buildGenericFloorPlan(){
-		Random random = new Random();
-		String[] alpha = {"a", "b", "c", "d", "e", "f", "g"};
+		SecureRandom random = new SecureRandom();
+		String[] axisX = {"a", "b", "c", "d", "e", "f", "g"};
+		int axisYMin = 1;
+		int axisYMax = 7;
 		//these loops create the tiles and add them to the map
-		for(int i = 0; i < 7; i++){
-			String letter = alpha[i];
-			for(int j = 1; j <= 7; j++ ){
+		for(int i = 0; i < axisX.length; i++){
+			for(int j = axisYMin; j <= axisYMax; j++ ){
 				Tile tempTile = new Tile();
 				//setting tile to random floor type declared at top of class
 				tempTile.setSurfaceType(floorTypes[random.nextInt(floorTypes.length)]);
 				//tile is randomly an obstacle or not
 				tempTile.setIsObstacle(isObstacle[random.nextInt(isObstacle.length)]);
-				String tempID = letter + j;
+				String tempID = axisX[i] + j;
 				tempTile.setID(tempID);
 				roomLayout.put(tempTile.getId(), tempTile);
 			}
 		}
-		//these loops go and attempt to get all the tiles in all directions catches the out of bounds and ignores it
-		for(int z = 0; z < 7; z++){
+		//these loops go and attempt to get all the tiles in all directions; ignores those tiles that are out of bounds
+		for(int z = 0; z < axisX.length; z++){
 			Tile tempTile;
-			String letter = alpha[z];
-			for(int x = 1; x <= 7; x++ ){
-				//try getting the top tile above target
-				try{
-					String targetTile = letter + x;
-					tempTile = roomLayout.get(targetTile);
-					String tileAbove = alpha[z-1] + x;
+			String letter = axisX[z];
+			for(int x = axisYMin; x <= axisYMax; x++ ){
+				String targetTile = letter + x;
+				tempTile = roomLayout.get(targetTile);
+				
+				//try getting the tile above target tile
+				if (z-1 >= 0) {
+					String tileAbove = axisX[z-1] + x;
 					Tile upTile = roomLayout.get(tileAbove);
 					tempTile.setTopNext(upTile);
-				} catch(Exception e){
-					//ignore
 				}
-				//try getting the bottom tile above target
-				try{
-					String targetTile = letter + x;
-					tempTile = roomLayout.get(targetTile);
-					String tileBelow = alpha[z+1] + x;
+				
+				//try getting the tile below the target tile
+				if (z+1 < axisX.length) {
+					String tileBelow = axisX[z+1] + x;
 					Tile bottomTile = roomLayout.get(tileBelow);
 					tempTile.setBottomNext(bottomTile);
-				} catch(Exception e){
-					//ignore
 				}
-				//try getting the right tile above target
-				try{
-					String targetTile = letter + x;
-					tempTile = roomLayout.get(targetTile);
+				
+				//try getting the tile to the right of target tile
+				if (x+1 <= axisYMax) {
 					String tileRight = letter + (x+1);
 					Tile rightTile = roomLayout.get(tileRight);
 					tempTile.setRightNext(rightTile);
-				} catch(Exception e){
-					//ignore
 				}
-				//try getting the left tile above target
-				try{
-					String targetTile = letter + x;
-					tempTile = roomLayout.get(targetTile);
+				
+				//try getting the tile to the left of target tile
+				if (x-1 >= axisYMin) {
 					String tileLeft = letter + (x-1);
 					Tile leftTile = roomLayout.get(tileLeft);
 					tempTile.setLeftNext(leftTile);
-				} catch(Exception e){
-					//ignore
 				}
 			}
 		}
 		//get tile g3 in order to make it the the charging station
 		Tile chargingStation = roomLayout.get("d3");
 		chargingStation.setChargingStation(true);
-		System.out.println("Floor plan has successfully been built");
+		logger.info("Floor plan has successfully been built");
 	}
 
 	public void writeFloorPlanToFile(){
@@ -151,9 +145,9 @@ public class FloorPlan {
 			gson.toJson(floorTiles, writer);
 			writer.flush();
 			writer.close();
-			System.out.println("Floor plan saved to file");
+			logger.info("Floor plan saved to file");
 		} catch (Exception e){
-			System.out.println(e);
+			logger.error("An erro occured!", e);
 		}
 
 	}

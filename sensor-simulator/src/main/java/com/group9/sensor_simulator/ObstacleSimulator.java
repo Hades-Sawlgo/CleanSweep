@@ -1,13 +1,14 @@
 package com.group9.sensor_simulator;
 
-import java.util.Random;
+import java.security.SecureRandom;
 
 
 public class ObstacleSimulator {
     private static ObstacleSimulator obstacleSimulator_instance = null;
-    private final Random random;
+    private final SecureRandom random;
     private final Boolean[] randomBool = {false, false, false, false, false, false, false, true, false, false, false, true, false, false, false, true, false, false};
-    private ObstacleSimulator(){random = new Random();
+    private ObstacleSimulator(){
+    	random = new SecureRandom();
     }
 
     public static ObstacleSimulator getInstance(){

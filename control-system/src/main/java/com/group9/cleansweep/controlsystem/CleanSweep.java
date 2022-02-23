@@ -4,11 +4,15 @@ import java.util.Map;
 
 import com.group9.cleansweep.FloorPlan;
 import com.group9.cleansweep.Tile;
-import com.group9.sensor_simulator.FloorTypeSimulator;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 public class CleanSweep {
 
+	private static Logger logger = LoggerFactory.getLogger(CleanSweep.class);
+	
 	/*
 	 * floor plan to get all tiles or get start tile Navigation object move to next
 	 * tile - return new tile Dirt Detection object is capacity full? >=4 if full ->
@@ -21,7 +25,7 @@ public class CleanSweep {
 	PowerManagement powerManagement = new PowerManagement();
 	int totalDirtCollected=0;
 	public CleanSweep(){
-
+		// Empty constructor
 
 	}
 
@@ -30,10 +34,9 @@ public class CleanSweep {
 		floorPlan.buildGenericFloorPlan();
 		Navigation navigation = new Navigation(floorPlan);
 	
-		Tile firstTile = new Tile();
+		Tile firstTile;
 		Tile previousTile = new Tile();
-		Tile nextTile = new Tile();
-		Tile tempTile = new Tile();
+		Tile nextTile;
 		Boolean keepWorking = true;
 		boolean isMinimumPowerCapacityReached=false;
 		String[] list = new String[200];
@@ -42,11 +45,11 @@ public class CleanSweep {
 		firstTile = navigation.currentPos;
 		nextTile = null;
 		Map<String, Tile> floorPlanDirtMap = dirtDetection.setRandomDirt(floorPlan);
-		System.out.println("Clean Sweep is starting on tile " + firstTile.getId());
-		while (keepWorking) {
+		logger.info(String.format("Clean Sweep is starting on tile %s", firstTile.getId()));
+		
+		while (Boolean.TRUE.equals(keepWorking)) {
 
-
-			//for first time in the loop
+			// for first time in the loop
 			if(nextTile == null){
 				previousTile = firstTile;
 			}
@@ -55,13 +58,13 @@ public class CleanSweep {
 //				keepWorking = false;
 //			}
 			else{
-				System.out.println("Previous tile: " + previousTile.getId() + " Next Tile: " + nextTile.getId());
+				logger.info(String.format("Previous tile: %s Next Tile: %s", previousTile.getId(), nextTile.getId()));
 				list[i] = previousTile.getId();
 				i++;
 				previousTile = nextTile;
-				for (int g = 0; g < list.length ;g++) {
-					if (nextTile.getId() == list[g]) {
-						System.out.println("We've encountered multiple isVisited tiles in a row.  Returning to Power Station at the end of this cycle.");
+				for (int g = 0; g < list.length; g++) {
+					if (nextTile.getId().equals(list[g])) {
+						logger.info("We've encountered multiple isVisited tiles in a row.  Returning to Power Station at the end of this cycle.");
 						previousTile = firstTile;
 						break;
 					}
@@ -69,7 +72,7 @@ public class CleanSweep {
 			}
 
 			if(isMinimumPowerCapacityReached){
-				System.out.println("Power is low.  Returning to charging station.");
+				logger.info("Power is low.  Returning to charging station.");
 				break;
 			}
 			nextTile = navigation.traverse(previousTile);
@@ -119,16 +122,16 @@ public class CleanSweep {
 		
 		}
 		
-		System.out.println("\nCurrent Dirt Amount per tile:\n");
+		logger.info("\nCurrent Dirt Amount per tile:\n");
 		for (Map.Entry<String, Tile> entry : floorPlanDirtMap.entrySet()) {
 
-			System.out.println("Key = " + entry.getKey() + ", Dirt Amount = " + entry.getValue().getDirtAmount());
+			logger.info("Key = " + entry.getKey() + ", Dirt Amount = " + entry.getValue().getDirtAmount());
 		}
 	}
 	
-	public void dirtDetectionProcess() {
-		
-	}
+//	public void dirtDetectionProcess() {
+//		
+//	}
 //	public void doWorkFromFile(String fileLocation){
 //		FloorPlan floorPlan = new FloorPlan();
 //		floorPlan.convertFileToFloorplan("src/main/java/com/group9/cleansweep/controlsystem/FloorPlanFile/SampleFloor.json");
