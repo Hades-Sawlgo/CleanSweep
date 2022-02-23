@@ -3,12 +3,11 @@ package com.group9.cleansweep.controlsystem;
 import java.text.DecimalFormat;
 import java.util.Map.Entry;
 
-import com.group9.cleansweep.Enum.UnitConsumedEnum;
-
 import lombok.Getter;
 import lombok.Setter;
 import com.group9.cleansweep.FloorPlan;
 import com.group9.cleansweep.Tile;
+import com.group9.cleansweep.enums.UnitConsumedEnum;
 import com.group9.sensor_simulator.FloorTypeSimulator;
 public class PowerManagement {
 

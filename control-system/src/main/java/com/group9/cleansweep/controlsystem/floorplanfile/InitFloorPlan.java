@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gson.Gson;
-import com.group9.cleansweep.Enum.TileTypeEnum;
+import com.group9.cleansweep.enums.TileTypeEnum;
 
 public class InitFloorPlan {
 	List<List<String>> initialFloorPlanObject;
