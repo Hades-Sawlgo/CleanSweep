@@ -46,10 +46,12 @@ public class DirtDetection {
 		logger.info(sysOutput);
 		for (int i = dirtAmount; i >= 0; i--) {
 			if (tile.getDirtAmount() == 0) {
-				System.out.println("Tile " + tile.getId() + " is completely clean ");
+				sysOutput=String.format("Tile %s : is completely clean",tile.getId());
+				logger.info(sysOutput);
 				break;
 			} else {
-				System.out.println("Cleaning tile: " + tile.getId());
+				sysOutput=String.format("Cleaning tile :%s",tile.getId());
+				logger.info(sysOutput);
 				dirtCount--;
 				totalDirtCollected++;
 				isDirtCapacityFull = checkIfDirtCapacityFull(totalDirtCollected);

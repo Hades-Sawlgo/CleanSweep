@@ -6,26 +6,31 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.TestMethodOrder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @TestMethodOrder(MethodOrderer.Alphanumeric.class)
 public class PowerManagementTest {
+	private static Logger logger = LoggerFactory.getLogger(PowerManagementTest.class);
 	private static PowerManagement powerManagement;
 
 	private static String testName;
+	static String sysOutput = "";
 
 	@BeforeClass
 	public static void initPowerManagement() {
 		final String className = "PowerManagementTest";
 		powerManagement = new PowerManagement();
-
-		System.out.println("************************************************************");
-		System.out.println("     " + className + " class getting executed");
-		System.out.println("************************************************************");
+		sysOutput = String.format("%s class getting executed", className);
+		logger.info("-------------------------------------------------");
+		logger.info(sysOutput);
+		logger.info("-------------------------------------------------");
 	}
 
 	public void printTestName(String testName) {
 
-		System.out.println(testName + " test method getting executed.....\n ");
+		sysOutput = String.format("%s test method getting executed.....\n", testName);
+		logger.info(sysOutput);
 	}
 
 	@Test
