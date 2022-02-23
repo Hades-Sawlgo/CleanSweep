@@ -1,19 +1,16 @@
 package com.group9.cleansweep.controlsystem;
 
-import lombok.Getter;
-import lombok.Setter;
-
 import java.util.Map;
-import java.util.Random;
-import java.util.logging.Level;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Map.Entry;
 import com.group9.cleansweep.FloorPlan;
 import com.group9.cleansweep.Tile;
 import com.group9.sensor_simulator.DirtSensor;
+
+import lombok.Getter;
+import lombok.Setter;
 
 public class DirtDetection {
 	private static Logger logger = LoggerFactory.getLogger(DirtDetection.class);
@@ -45,8 +42,8 @@ public class DirtDetection {
 		int dirtAmount = tile.getDirtAmount();
 		totalDirtCollected = dirtDetection.getTotalDirtCollected();
 		dirtCount = tile.getDirtAmount();
-		System.out.println("Total Dirt Amount of tile " + tile.getId() + ": " + tile.getDirtAmount());
-
+		String sysOutput = String.format("Total Dirt Amount of tile %s : %s",tile.getId(),tile.getDirtAmount());
+		logger.info(sysOutput);
 		for (int i = dirtAmount; i >= 0; i--) {
 			if (tile.getDirtAmount() == 0) {
 				System.out.println("Tile " + tile.getId() + " is completely clean ");
@@ -62,6 +59,7 @@ public class DirtDetection {
 					logger.info("DIRT TANK FULL !!!Please empty the dirt tank !!");
 					logger.info("-------------------------------------------------");
 					emptyDirtTank();
+				
 
 				}
 
