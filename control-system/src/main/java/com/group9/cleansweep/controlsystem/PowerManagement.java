@@ -1,7 +1,8 @@
 package com.group9.cleansweep.controlsystem;
 
 import java.text.DecimalFormat;
-import java.util.Map.Entry;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.group9.cleansweep.Enum.UnitConsumedEnum;
 
@@ -14,7 +15,7 @@ public class PowerManagement {
 
 	@Getter
 
-	private final int totalBatteryUnit = 250;
+	private static final int totalBatteryUnit = 250;
 	@Getter
 	@Setter
 	private double currentUnitOfCharge = 0;
@@ -32,13 +33,16 @@ public class PowerManagement {
 	private boolean isMimumumPowerCapacityReached=false;
 
 
-	private final double minimumCapacityForPowerUnit = 50.0;
+	private static final double minimumCapacityForPowerUnit = 50.0;
 	  private static final DecimalFormat df = new DecimalFormat("0.00");
+	  
+	private static Logger logger = LoggerFactory.getLogger(StatusCheck.class);
+	
 	public boolean powerManagementProcess(Tile previousTile, Tile currentTile, int dirtAmount) {
 
 	String previousSurfaceType = "";
 		String currentSurfaceType = "";
-		double unitOfCharge = 0.0;
+		double unitOfCharge;
 			currentTile.setSurfaceType(FloorTypeSimulator.getInstance().getRandomFloorType());
 			currentSurfaceType = currentTile.getSurfaceType();
 			if (previousTile != null && !(currentSurfaceType.equals(previousTile.getSurfaceType()))) {
@@ -59,19 +63,17 @@ public class PowerManagement {
 
 	public float getUnitOfCharge(String floorPlanType) {
 
-		float unitOfCharge = unitConsumedEnum.valueOf(floorPlanType).getUnitsConsumedPerFloorType();
+		float unitOfCharge = UnitConsumedEnum.valueOf(floorPlanType).getUnitsConsumedPerFloorType();
 		return unitOfCharge;
 	}
 
 	public float getAverageUnitOfCharge(String currentFloorPlanType, String previousFloorPlanType) {
 
-		float previousUnitOfCharge = unitConsumedEnum.valueOf(previousFloorPlanType).getUnitsConsumedPerFloorType();
+		float previousUnitOfCharge = UnitConsumedEnum.valueOf(previousFloorPlanType).getUnitsConsumedPerFloorType();
 
-		float currentUnitOfCharge = unitConsumedEnum.valueOf(currentFloorPlanType).getUnitsConsumedPerFloorType();
+		float currentCharge = UnitConsumedEnum.valueOf(currentFloorPlanType).getUnitsConsumedPerFloorType();
 
-		float avgUnitOfCharge = (previousUnitOfCharge + currentUnitOfCharge) / 2;
-
-		return avgUnitOfCharge;
+		return (previousUnitOfCharge + currentCharge) / 2;		
 
 	}
 
@@ -79,7 +81,7 @@ public class PowerManagement {
 		
 		double remainingBattery=totalBatteryUnit-currentPowerUnit;
 		String batteryPercent= df.format((remainingBattery/totalBatteryUnit)*100);
-		System.out.println("\n Battery Power Remaining:"+batteryPercent+"% \n");
+		logger.info("\n Battery Power Remaining:"+batteryPercent+"% \n");
 		
 		if (remainingBattery < minimumCapacityForPowerUnit) {
 			isMimumumPowerCapacityReached=true;

@@ -1,6 +1,9 @@
 package com.group9.cleansweep.controlsystem;
 
 import java.util.Scanner;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 /**
  * @Description:
@@ -8,14 +11,20 @@ import java.util.Scanner;
  * @Creat:11/11/21 4:17 PM
  **/
 public class UnregisteredUI {
-    public static void UnregisteredUI(CleanSweep cleanSweep){
-        System.out.println("You're not logged in.");
-        System.out.println("Press Y to run by default floor plan, Press N to break:");
+	private static Logger logger = LoggerFactory.getLogger(StatusCheck.class);
+
+	private UnregisteredUI() {
+	    throw new IllegalStateException();
+	}
+	
+    public static void unregisteredUI(CleanSweep cleanSweep){
+    	logger.info("You're not logged in.");
+    	logger.info("Press Y to run by default floor plan, Press N to break:");
         Scanner sc = new Scanner(System.in);
         String input = sc.nextLine();
         while(!input.equals("Y") && !input.equals("N") && !input.equals("y") && !input.equals("n")){
-            System.out.println("Input value wrong!");
-            System.out.println("Press Y to run by default floor plan, Press N to break:");
+        	logger.info("Input value wrong!");
+        	logger.info("Press Y to run by default floor plan, Press N to break:");
             input = sc.nextLine();
         }
         if(input.equals("Y") || input.equals("y")) cleanSweep.doWork();
