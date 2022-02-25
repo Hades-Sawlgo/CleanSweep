@@ -53,10 +53,6 @@ public class CleanSweep {
 			if(nextTile == null){
 				previousTile = firstTile;
 			}
-//			else if (nextTile.getId() == previousTile.getId()) {
-//				System.out.println("We ran into a wall.  Stopping shortly...");
-//				keepWorking = false;
-//			}
 			else{
 				logger.info(String.format("Previous tile: %s Next Tile: %s", previousTile.getId(), nextTile.getId()));
 				list[i] = previousTile.getId();
@@ -82,44 +78,12 @@ public class CleanSweep {
 			if(navigation.isCycleComplete()){
 				keepWorking = false;
 			}
-			else
-			{
+			else{
 				totalDirtCollected=dirtDetection.cleanDirt(nextTile,dirtDetection);
 				dirtDetection.setTotalDirtCollected(totalDirtCollected);
 				isMinimumPowerCapacityReached=powerManagement.powerManagementProcess(previousTile,nextTile,nextTile.getDirtAmount());
 		
 			}
-		
-		
-			
-	
-			//Insert battery check logic here:
-
-			//This will check if all 4 directions become blocked somehow.
-//			if (currentTile.equals(null))
-//				return;
-//
-//			//If you navigate to a new tile and it is visited, check to see if ALL tiles are visited.
-//			if (currentTile.isVisited()) {
-//				navigation.setIgnoreIsVisited(true);
-//				//If all tiles visited, check cycle completion first
-//				if (navigation.isCycleComplete()) {
-//					floorPlan.writeFloorPlanToFile();
-//					return;
-//				}
-//				//If not all tiles visited, try checking all other tiles for unvisited
-//				else {
-//					System.out.println("Cycle is not yet complete.  Checking adjacent tiles.");
-//					currentTile = navigation.traverseTop(currentTile);
-//					//If all adjacent tiles are still visited, stop the loop and go back to the charging station to try again later.
-//					if(currentTile.isVisited()) {
-//						System.out.println("All nearby tiles have been visited.  Starting over from charging station");
-//						//Insert navigation back to charging station here:
-//						return;
-//					}
-//				}
-//			}
-		
 		}
 		
 		logger.info("\nCurrent Dirt Amount per tile:\n");
@@ -128,17 +92,4 @@ public class CleanSweep {
 			logger.info(String.format("Key = %s, Dirt Amount = %s", entry.getKey(), entry.getValue().getDirtAmount()));
 		}
 	}
-	
-//	public void dirtDetectionProcess() {
-//		
-//	}
-//	public void doWorkFromFile(String fileLocation){
-//		FloorPlan floorPlan = new FloorPlan();
-//		floorPlan.convertFileToFloorplan("src/main/java/com/group9/cleansweep/controlsystem/FloorPlanFile/SampleFloor.json");
-//		DirtDetection dirtDetection = new DirtDetection();
-//		dirtDetectionProcess(floorPlan);
-//
-//	}
-//
-
 }

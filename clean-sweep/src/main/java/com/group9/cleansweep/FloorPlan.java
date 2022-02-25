@@ -26,6 +26,11 @@ public class FloorPlan {
 	private final Map<String, Tile> roomLayout;
 	private final Boolean[] isObstacle = {true, false};
 	private final String[] floorTypes = {"BARE_FOOT", "LOW_PILE_CARPET", "HIGH_PILE_CARPET"};
+	
+	//Dimension information on floor
+	private String[] axisX = {"a", "b", "c", "d", "e", "f", "g"};
+	private int axisYMin = 1;
+	private int axisYMax = 7;
 
 	@Getter
 	FloorPlanTypeEnum floorPlanType;
@@ -75,9 +80,7 @@ public class FloorPlan {
 
 	public void buildGenericFloorPlan(){
 		SecureRandom random = new SecureRandom();
-		String[] axisX = {"a", "b", "c", "d", "e", "f", "g"};
-		int axisYMin = 1;
-		int axisYMax = 7;
+
 		//these loops create the tiles and add them to the map
 		for(int i = 0; i < axisX.length; i++){
 			for(int j = axisYMin; j <= axisYMax; j++ ){
@@ -91,6 +94,7 @@ public class FloorPlan {
 				roomLayout.put(tempTile.getId(), tempTile);
 			}
 		}
+		
 		//these loops go and attempt to get all the tiles in all directions; ignores those tiles that are out of bounds
 		for(int z = 0; z < axisX.length; z++){
 			Tile tempTile;
@@ -99,39 +103,45 @@ public class FloorPlan {
 				String targetTile = letter + x;
 				tempTile = roomLayout.get(targetTile);
 				
-				//try getting the tile above target tile
-				if (z-1 >= 0) {
-					String tileAbove = axisX[z-1] + x;
-					Tile upTile = roomLayout.get(tileAbove);
-					tempTile.setTopNext(upTile);
-				}
-				
-				//try getting the tile below the target tile
-				if (z+1 < axisX.length) {
-					String tileBelow = axisX[z+1] + x;
-					Tile bottomTile = roomLayout.get(tileBelow);
-					tempTile.setBottomNext(bottomTile);
-				}
-				
-				//try getting the tile to the right of target tile
-				if (x+1 <= axisYMax) {
-					String tileRight = letter + (x+1);
-					Tile rightTile = roomLayout.get(tileRight);
-					tempTile.setRightNext(rightTile);
-				}
-				
-				//try getting the tile to the left of target tile
-				if (x-1 >= axisYMin) {
-					String tileLeft = letter + (x-1);
-					Tile leftTile = roomLayout.get(tileLeft);
-					tempTile.setLeftNext(leftTile);
-				}
+				assignAdjacentTiles(tempTile, x, z);
 			}
 		}
+		
 		//get tile g3 in order to make it the the charging station
 		Tile chargingStation = roomLayout.get("d3");
 		chargingStation.setChargingStation(true);
 		logger.info("Floor plan has successfully been built");
+	}
+	
+	public void assignAdjacentTiles(Tile tempTile, int x, int z) {
+		
+		//try getting the tile above target tile
+		if (z-1 >= 0) {
+			String tileAbove = axisX[z-1] + x;
+			Tile upTile = roomLayout.get(tileAbove);
+			tempTile.setTopNext(upTile);
+		}
+		
+		//try getting the tile below the target tile
+		if (z+1 < axisX.length) {
+			String tileBelow = axisX[z+1] + x;
+			Tile bottomTile = roomLayout.get(tileBelow);
+			tempTile.setBottomNext(bottomTile);
+		}
+		
+		//try getting the tile to the right of target tile
+		if (x+1 <= axisYMax) {
+			String tileRight = axisX[z] + (x+1);
+			Tile rightTile = roomLayout.get(tileRight);
+			tempTile.setRightNext(rightTile);
+		}
+		
+		//try getting the tile to the left of target tile
+		if (x-1 >= axisYMin) {
+			String tileLeft = axisX[z] + (x-1);
+			Tile leftTile = roomLayout.get(tileLeft);
+			tempTile.setLeftNext(leftTile);
+		}
 	}
 
 	public void writeFloorPlanToFile(){
