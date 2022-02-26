@@ -1,4 +1,4 @@
-package com.group9.cleansweep.controlsystem.FloorPlanFile;
+package com.group9.cleansweep.controlsystem.floorplanfile;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;

@@ -4,12 +4,11 @@ import java.text.DecimalFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.group9.cleansweep.Enum.UnitConsumedEnum;
-
 import lombok.Getter;
 import lombok.Setter;
 import com.group9.cleansweep.FloorPlan;
 import com.group9.cleansweep.Tile;
+import com.group9.cleansweep.enums.UnitConsumedEnum;
 import com.group9.sensor_simulator.FloorTypeSimulator;
 public class PowerManagement {
 

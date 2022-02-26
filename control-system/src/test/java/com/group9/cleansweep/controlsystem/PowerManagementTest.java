@@ -1,31 +1,36 @@
 package com.group9.cleansweep.controlsystem;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.TestMethodOrder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @TestMethodOrder(MethodOrderer.Alphanumeric.class)
 public class PowerManagementTest {
+	private static Logger logger = LoggerFactory.getLogger(PowerManagementTest.class);
 	private static PowerManagement powerManagement;
 
 	private static String testName;
+	static String sysOutput = "";
 
 	@BeforeClass
 	public static void initPowerManagement() {
 		final String className = "PowerManagementTest";
 		powerManagement = new PowerManagement();
-
-		System.out.println("************************************************************");
-		System.out.println("     " + className + " class getting executed");
-		System.out.println("************************************************************");
+		sysOutput = String.format("%s class getting executed", className);
+		logger.info("-------------------------------------------------");
+		logger.info(sysOutput);
+		logger.info("-------------------------------------------------");
 	}
 
 	public void printTestName(String testName) {
 
-		System.out.println(testName + " test method getting executed.....\n ");
+		sysOutput = String.format("%s test method getting executed.....\n", testName);
+		logger.info(sysOutput);
 	}
 
 	@Test
@@ -38,10 +43,10 @@ public class PowerManagementTest {
 		String currentfloorPlanType2 = "LOW_PILE_CARPET";
 		String currentfloorPlanType3 = "HIGH_PILE_CARPET";
 		String previousfloorPlanType = "BARE_FOOT";
-		assertTrue(powerManagement.getUnitOfCharge(currentfloorPlanType1) == 1.0);
-		assertTrue(powerManagement.getUnitOfCharge(currentfloorPlanType2) == 2.0);
-		assertTrue(powerManagement.getUnitOfCharge(currentfloorPlanType3) == 3.0);
-		assertTrue(powerManagement.getUnitOfCharge(previousfloorPlanType) == 1.0);
+		assertEquals(1.0f, powerManagement.getUnitOfCharge(currentfloorPlanType1));
+		assertEquals(2.0f, powerManagement.getUnitOfCharge(currentfloorPlanType2));
+		assertEquals(3.0f, powerManagement.getUnitOfCharge(currentfloorPlanType3));
+		assertEquals(1.0f, powerManagement.getUnitOfCharge(previousfloorPlanType));
 
 	}
 
@@ -52,7 +57,7 @@ public class PowerManagementTest {
 
 		String currentfloorPlanType = "LOW_PILE_CARPET";
 		String previousfloorPlanType = "BARE_FOOT";
-		assertTrue(powerManagement.getAverageUnitOfCharge(currentfloorPlanType, previousfloorPlanType) == 1.5);
+		assertEquals(1.5f, powerManagement.getAverageUnitOfCharge(currentfloorPlanType, previousfloorPlanType));
 
 	}
 
