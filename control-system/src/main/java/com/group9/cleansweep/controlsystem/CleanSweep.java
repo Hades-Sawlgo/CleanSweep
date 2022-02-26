@@ -51,7 +51,8 @@ public class CleanSweep {
 		firstTile = navigation.currentPos;
 		nextTile = null;
 		Map<String, Tile> floorPlanDirtMap = dirtDetection.setRandomDirt(floorPlan);
-		logger.info(String.format("Clean Sweep is starting on tile %s", firstTile.getId()));
+		String loggerInfo = String.format("Clean Sweep is starting on tile %s", firstTile.getId());
+		logger.info(loggerInfo);
 
 		while (Boolean.TRUE.equals(keepWorking)) {
 
@@ -79,7 +80,8 @@ public class CleanSweep {
 		logger.info("\nCurrent Dirt Amount per tile:\n");
 		for (Map.Entry<String, Tile> entry : floorPlanDirtMap.entrySet()) {
 
-			logger.info(String.format("Key = %s, Dirt Amount = %s", entry.getKey(), entry.getValue().getDirtAmount()));
+			loggerInfo = String.format("Key = %s, Dirt Amount = %s", entry.getKey(), entry.getValue().getDirtAmount());
+			logger.info(loggerInfo);
 		}
 	}
 
@@ -90,7 +92,8 @@ public class CleanSweep {
 			previousTile = firstTile;
 		}
 		else{
-			logger.info(String.format("Previous tile: %s Next Tile: %s", previousTile.getId(), nextTile.getId()));
+			String loggerInfo = String.format("Previous tile: %s Next Tile: %s", previousTile.getId(), nextTile.getId());
+			logger.info(loggerInfo);
 			list[i] = previousTile.getId();
 			i++;
 			previousTile = nextTile;
