@@ -1,14 +1,13 @@
 package com.group9.cleansweep.controlsystem;
 
+import org.junit.BeforeClass;
+import org.junit.Test;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.TestMethodOrder;
+
 import static org.junit.Assert.assertTrue;
 
-import org.junit.BeforeClass;
-import org.junit.FixMethodOrder;
-import org.junit.Test;
-import org.junit.runners.MethodSorters;
-
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
-
+@TestMethodOrder(MethodOrderer.Alphanumeric.class)
 public class PowerManagementTest {
 	private static PowerManagement powerManagement;
 

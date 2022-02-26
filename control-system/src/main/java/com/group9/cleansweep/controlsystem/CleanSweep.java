@@ -24,48 +24,38 @@ public class CleanSweep {
 	DirtDetection dirtDetection = new DirtDetection();
 	PowerManagement powerManagement = new PowerManagement();
 	int totalDirtCollected=0;
+
+	Tile firstTile;
+	Tile previousTile;
+	Tile nextTile;
+	Boolean keepWorking;
+	boolean isMinimumPowerCapacityReached;
+	String[] list;
+	int i;
+
 	public CleanSweep(){
 		// Empty constructor
-
 	}
 
 	public void doWork() {
 		FloorPlan floorPlan = new FloorPlan();
 		floorPlan.buildGenericFloorPlan();
 		Navigation navigation = new Navigation(floorPlan);
-	
-		Tile firstTile;
-		Tile previousTile = new Tile();
-		Tile nextTile;
-		Boolean keepWorking = true;
-		boolean isMinimumPowerCapacityReached=false;
-		String[] list = new String[200];
-		int i = 0;
+
+		previousTile = new Tile();
+		keepWorking = true;
+		isMinimumPowerCapacityReached=false;
+		list = new String[200];
+		i = 0;
 
 		firstTile = navigation.currentPos;
 		nextTile = null;
 		Map<String, Tile> floorPlanDirtMap = dirtDetection.setRandomDirt(floorPlan);
 		logger.info(String.format("Clean Sweep is starting on tile %s", firstTile.getId()));
-		
+
 		while (Boolean.TRUE.equals(keepWorking)) {
 
-			// for first time in the loop
-			if(nextTile == null){
-				previousTile = firstTile;
-			}
-			else{
-				logger.info(String.format("Previous tile: %s Next Tile: %s", previousTile.getId(), nextTile.getId()));
-				list[i] = previousTile.getId();
-				i++;
-				previousTile = nextTile;
-				for (int g = 0; g < list.length; g++) {
-					if (nextTile.getId().equals(list[g])) {
-						logger.info("We've encountered multiple isVisited tiles in a row.  Returning to Power Station at the end of this cycle.");
-						previousTile = firstTile;
-						break;
-					}
-				}
-			}
+			visitedTileUpdate();
 
 			if(isMinimumPowerCapacityReached){
 				logger.info("Power is low.  Returning to charging station.");
@@ -90,6 +80,27 @@ public class CleanSweep {
 		for (Map.Entry<String, Tile> entry : floorPlanDirtMap.entrySet()) {
 
 			logger.info(String.format("Key = %s, Dirt Amount = %s", entry.getKey(), entry.getValue().getDirtAmount()));
+		}
+	}
+
+	private void visitedTileUpdate() {
+
+		// for first time in the loop
+		if(nextTile == null) {
+			previousTile = firstTile;
+		}
+		else{
+			logger.info(String.format("Previous tile: %s Next Tile: %s", previousTile.getId(), nextTile.getId()));
+			list[i] = previousTile.getId();
+			i++;
+			previousTile = nextTile;
+			for (int g = 0; g < list.length; g++) {
+				if (nextTile.getId().equals(list[g])) {
+					logger.info("We've encountered multiple isVisited tiles in a row.  Returning to Power Station at the end of this cycle.");
+					previousTile = firstTile;
+					break;
+				}
+			}
 		}
 	}
 }
