@@ -11,5 +11,5 @@ public class ObstacleDetection {
 
 	@Getter
 	@Setter
-	public ObstacleType isObstacleDetected;
+	private ObstacleType obstacleDetected;
 }

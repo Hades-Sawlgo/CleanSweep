@@ -14,7 +14,7 @@ public class Tile {
 	@Expose private String leftID;
 	@Expose private String topID;
 	@Expose private String bottomID;
-	private Tile  rightNext;
+	private Tile rightNext;
 	private Tile leftNext;
 	private Tile topNext;
 	private Tile bottomNext;
@@ -38,43 +38,29 @@ public class Tile {
 	}
 
 	public void setSurroundingTileID(Tile tile){
-		try{
-			if(tile.getRightNext() == null){
-				this.rightID = null;
-			} else{
-				this.rightID = tile.getRightNext().id;
-			}
-		} catch(Exception e){
-			//ignore NPE if thrown
+		if(tile.getRightNext() == null){
+			this.rightID = null;
+		} else{
+			this.rightID = tile.getRightNext().id;
 		}
-		try{
-			if(tile.getLeftNext() == null){
-				this.leftID = null;
-			} else{
-				this.leftID = tile.getLeftNext().id;
-			}
-		}catch(Exception e){
-			//ignore NPE if thrown
+		
+		if(tile.getLeftNext() == null){
+			this.leftID = null;
+		} else{
+			this.leftID = tile.getLeftNext().id;
 		}
-		try{
-			if(tile.getTopNext() == null){
-				this.topID = null;
-			} else{
-				this.topID = tile.getTopNext().id;
-			}
-		}catch(Exception e){
-			//ignore NPE if thrown
+		
+		if(tile.getTopNext() == null){
+			this.topID = null;
+		} else{
+			this.topID = tile.getTopNext().id;
 		}
-		try{
-			if(tile.getBottomNext() == null){
-				this.bottomID = null;
-			} else{
-				this.bottomID = tile.getBottomNext().id;
-			}
-		}catch(Exception e){
-			//ignore NPE if thrown
+		
+		if(tile.getBottomNext() == null){
+			this.bottomID = null;
+		} else{
+			this.bottomID = tile.getBottomNext().id;
 		}
-
 	}
 
 	public void setSurfaceType(String surfaceType){

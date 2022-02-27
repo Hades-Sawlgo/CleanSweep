@@ -1,4 +1,4 @@
-package com.group9.cleansweep.Enum;
+package com.group9.cleansweep.enums;
 
 public enum FloorPlanTypeEnum {
 	BARE_FOOT, LOW_PILE_CARPET, HIGH_PILE_CARPET
