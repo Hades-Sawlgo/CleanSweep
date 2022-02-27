@@ -14,7 +14,7 @@ public class PowerManagement {
 
 	@Getter
 
-	private static final int totalBatteryUnit = 250;
+	private static final int TOTAL_BATTERY_UNIT = 250;
 	@Getter
 	@Setter
 	private double currentUnitOfCharge = 0;
@@ -32,10 +32,10 @@ public class PowerManagement {
 	private boolean isMimumumPowerCapacityReached=false;
 
 
-	private static final double minimumCapacityForPowerUnit = 50.0;
+	private static final double POWER_UNIT_MIN_CAPACITY = 50.0;
 	  private static final DecimalFormat df = new DecimalFormat("0.00");
 	  
-	private static Logger logger = LoggerFactory.getLogger(StatusCheck.class);
+	private static Logger logger = LoggerFactory.getLogger(PowerManagement.class);
 	
 	public boolean powerManagementProcess(Tile previousTile, Tile currentTile, int dirtAmount) {
 
@@ -62,8 +62,7 @@ public class PowerManagement {
 
 	public float getUnitOfCharge(String floorPlanType) {
 
-		float unitOfCharge = UnitConsumedEnum.valueOf(floorPlanType).getUnitsConsumedPerFloorType();
-		return unitOfCharge;
+		return UnitConsumedEnum.valueOf(floorPlanType).getUnitsConsumedPerFloorType();
 	}
 
 	public float getAverageUnitOfCharge(String currentFloorPlanType, String previousFloorPlanType) {
@@ -78,11 +77,12 @@ public class PowerManagement {
 
 	public boolean checkIfMinimumPowerCapacityReached(double currentPowerUnit) {
 		
-		double remainingBattery=totalBatteryUnit-currentPowerUnit;
-		String batteryPercent= df.format((remainingBattery/totalBatteryUnit)*100);
-		logger.info("\n Battery Power Remaining:"+batteryPercent+"% \n");
+		double remainingBattery=TOTAL_BATTERY_UNIT-currentPowerUnit;
+		String batteryPercent= df.format((remainingBattery/TOTAL_BATTERY_UNIT)*100);
+		String loggerInfo = String.format("%n Battery Power Remaining: %s %% %n", batteryPercent);
+		logger.info(loggerInfo);
 		
-		if (remainingBattery < minimumCapacityForPowerUnit) {
+		if (remainingBattery < POWER_UNIT_MIN_CAPACITY) {
 			isMimumumPowerCapacityReached=true;
 			StatusCheck statusCheck = new StatusCheck();
 			statusCheck.setStatus("\n BATTERY LOW ! PLEASE RECHARGE THE VACUUM!!!!!");

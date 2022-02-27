@@ -15,6 +15,7 @@ import lombok.Setter;
 public class DirtDetection {
 	private static Logger logger = LoggerFactory.getLogger(DirtDetection.class);
 	@Getter
+	@Setter
 	private static int totalDirtCapacity = 50;
 	@Getter
 	@Setter

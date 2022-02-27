@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
  * @Creat:11/11/21 4:17 PM
  **/
 public class UnregisteredUI {
-	private static Logger logger = LoggerFactory.getLogger(StatusCheck.class);
+	private static Logger logger = LoggerFactory.getLogger(UnregisteredUI.class);
 
 	private UnregisteredUI() {
 	    throw new IllegalStateException();
