@@ -2,6 +2,11 @@ package com.group9.cleansweep.controlsystem;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
+
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.jupiter.api.MethodOrderer;
@@ -13,6 +18,7 @@ import org.slf4j.LoggerFactory;
 public class PowerManagementTest {
 	private static Logger logger = LoggerFactory.getLogger(PowerManagementTest.class);
 	private static PowerManagement powerManagement;
+	private static Properties prop;
 
 	private static String testName;
 	static String sysOutput = "";
@@ -20,11 +26,22 @@ public class PowerManagementTest {
 	@BeforeClass
 	public static void initPowerManagement() {
 		final String className = "PowerManagementTest";
+		final String CONSTANT_FILE_PATH = "../clean-sweep/src/main/java/com/group9/cleansweep/properties/constant.properties";
+		
 		powerManagement = new PowerManagement();
+		Properties prop= new Properties();
+		
+		try (InputStream input = new FileInputStream(CONSTANT_FILE_PATH)) {
+			prop.load(input);
+
+		} catch (IOException ex) {
+			ex.printStackTrace();
+		}
 		sysOutput = String.format("%s class getting executed", className);
 		logger.info("-------------------------------------------------");
 		logger.info(sysOutput);
 		logger.info("-------------------------------------------------");
+
 	}
 
 	public void printTestName(String testName) {
@@ -42,11 +59,13 @@ public class PowerManagementTest {
 		String currentfloorPlanType1 = "BARE_FOOT";
 		String currentfloorPlanType2 = "LOW_PILE_CARPET";
 		String currentfloorPlanType3 = "HIGH_PILE_CARPET";
-		String previousfloorPlanType = "BARE_FOOT";
-		assertEquals(1.0f, powerManagement.getUnitOfCharge(currentfloorPlanType1));
-		assertEquals(2.0f, powerManagement.getUnitOfCharge(currentfloorPlanType2));
-		assertEquals(3.0f, powerManagement.getUnitOfCharge(currentfloorPlanType3));
-		assertEquals(1.0f, powerManagement.getUnitOfCharge(previousfloorPlanType));
+
+		assertEquals(Double.parseDouble(prop.getProperty("BARE_FOOT_UNIT_OF_CHARGE")),
+				powerManagement.getUnitOfCharge(currentfloorPlanType1));
+		assertEquals(Double.parseDouble(prop.getProperty("LOW_PILE_CARPET_UNIT_OF_CHARGE")),
+				powerManagement.getUnitOfCharge(currentfloorPlanType2));
+		assertEquals(Double.parseDouble(prop.getProperty("HIGH_PILE_CARPET_UNIT_OF_CHARGE")),
+				powerManagement.getUnitOfCharge(currentfloorPlanType3));
 
 	}
 
@@ -57,7 +76,7 @@ public class PowerManagementTest {
 
 		String currentfloorPlanType = "LOW_PILE_CARPET";
 		String previousfloorPlanType = "BARE_FOOT";
-		assertEquals(1.5f, powerManagement.getAverageUnitOfCharge(currentfloorPlanType, previousfloorPlanType));
+		assertEquals(Double.parseDouble(prop.getProperty("AVERAGE_UNIT_BAREFOOT_LOWPILE")), powerManagement.getAverageUnitOfCharge(currentfloorPlanType, previousfloorPlanType));
 
 	}
 
@@ -66,9 +85,8 @@ public class PowerManagementTest {
 		testName = "t3checkPowerLow";
 		printTestName(testName);
 
-		double cuurentUnitOfPower = 10.0;
-
-		powerManagement.checkIfMinimumPowerCapacityReached(cuurentUnitOfPower);
+		powerManagement
+				.checkIfMinimumPowerCapacityReached(Double.parseDouble(prop.getProperty("MINIMUM_POWER_CAPACITY")));
 	}
 
 }

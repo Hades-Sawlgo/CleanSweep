@@ -1,5 +1,6 @@
 package com.group9.cleansweep.controlsystem;
 
+import java.io.IOException;
 import java.util.Map;
 
 import com.group9.cleansweep.FloorPlan;
@@ -37,7 +38,7 @@ public class CleanSweep {
 		// Empty constructor
 	}
 
-	public void doWork() {
+	public void doWork() throws IOException {
 		FloorPlan floorPlan = new FloorPlan();
 		floorPlan.buildGenericFloorPlan();
 		Navigation navigation = new Navigation(floorPlan);

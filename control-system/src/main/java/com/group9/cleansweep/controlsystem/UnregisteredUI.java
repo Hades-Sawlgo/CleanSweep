@@ -1,5 +1,6 @@
 package com.group9.cleansweep.controlsystem;
 
+import java.io.IOException;
 import java.util.Scanner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,7 +18,7 @@ public class UnregisteredUI {
 	    throw new IllegalStateException();
 	}
 	
-    public static void unregisteredUI(CleanSweep cleanSweep){
+    public static void unregisteredUI(CleanSweep cleanSweep) throws IOException{
     	logger.info("You're not logged in.");
     	logger.info("Press Y to run by default floor plan, Press N to break:");
         Scanner sc = new Scanner(System.in);
