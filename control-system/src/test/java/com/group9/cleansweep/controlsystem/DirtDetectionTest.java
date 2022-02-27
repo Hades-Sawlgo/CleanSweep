@@ -1,15 +1,16 @@
 package com.group9.cleansweep.controlsystem;
 
-import com.group9.cleansweep.FloorPlan;
-import com.group9.cleansweep.Tile;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.TestMethodOrder;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Map;
 
-import static org.junit.Assert.assertTrue;
+import org.junit.BeforeClass;
+import org.junit.Test;
+
+import com.group9.cleansweep.FloorPlan;
+import com.group9.cleansweep.Tile;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.TestMethodOrder;
 
 @TestMethodOrder(MethodOrderer.Alphanumeric.class)
 public class DirtDetectionTest {

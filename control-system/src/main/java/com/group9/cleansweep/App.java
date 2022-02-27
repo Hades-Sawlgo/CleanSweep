@@ -10,6 +10,8 @@ import com.group9.cleansweep.controlsystem.UnregisteredUI;
 public class App {
 	public static void main(String[] args) {
 		CleanSweep cleanSweep = new CleanSweep();
-		UnregisteredUI.UnregisteredUI(cleanSweep);
+
+		UnregisteredUI.unregisteredUI(cleanSweep);
+
 	}
 }
