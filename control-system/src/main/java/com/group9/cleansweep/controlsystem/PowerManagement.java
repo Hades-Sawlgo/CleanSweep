@@ -40,7 +40,7 @@ public class PowerManagement {
 	private static Logger logger = LoggerFactory.getLogger(PowerManagement.class);
 
 	public boolean powerManagementProcess(Tile previousTile, Tile currentTile, int dirtAmount) throws IOException {
-		try (InputStream input = new FileInputStream(CONSTANT_FILE_PATH)) {
+			try (InputStream input = new FileInputStream(CONSTANT_FILE_PATH)) {
 			properties.load(input);
 
 		} catch (IOException ex) {
@@ -62,7 +62,7 @@ public class PowerManagement {
 
 		currentUnitOfCharge = currentUnitOfCharge + unitOfCharge + dirtAmount;
 
-		return checkIfMinimumPowerCapacityReached(currentUnitOfCharge);
+		return checkIfMinimumPowerCapacityReached(currentUnitOfCharge,properties);
 
 	}
 
@@ -81,9 +81,9 @@ public class PowerManagement {
 
 	}
 
-	public boolean checkIfMinimumPowerCapacityReached(double currentPowerUnit) {
+	public boolean checkIfMinimumPowerCapacityReached(double currentPowerUnit, Properties properties) {
 
-		Double remainingBattery = Double.parseDouble(properties.getProperty("TOTAL_BATTERY_UNIT")) - currentPowerUnit;
+		double remainingBattery = Double.parseDouble(properties.getProperty("TOTAL_BATTERY_UNIT")) - currentPowerUnit;
 		String batteryPercent = df
 				.format((remainingBattery / Double.parseDouble(properties.getProperty("TOTAL_BATTERY_UNIT"))) * 100);
 		String loggerInfo = String.format("%n Battery Power Remaining: %s %% %n", batteryPercent);

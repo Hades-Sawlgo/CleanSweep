@@ -29,7 +29,7 @@ public class PowerManagementTest {
 		final String CONSTANT_FILE_PATH = "../clean-sweep/src/main/java/com/group9/cleansweep/properties/constant.properties";
 		
 		powerManagement = new PowerManagement();
-		Properties prop= new Properties();
+		 prop= new Properties();
 		
 		try (InputStream input = new FileInputStream(CONSTANT_FILE_PATH)) {
 			prop.load(input);
@@ -86,7 +86,7 @@ public class PowerManagementTest {
 		printTestName(testName);
 
 		powerManagement
-				.checkIfMinimumPowerCapacityReached(Double.parseDouble(prop.getProperty("MINIMUM_POWER_CAPACITY")));
+				.checkIfMinimumPowerCapacityReached(Double.parseDouble(prop.getProperty("MINIMUM_POWER_CAPACITY")),prop);
 	}
 
 }
