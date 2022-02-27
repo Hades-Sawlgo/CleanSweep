@@ -65,7 +65,6 @@ public class CleanSweep {
 			nextTile = navigation.traverse(previousTile);
 
 
-
 			if(navigation.isCycleComplete()){
 				keepWorking = false;
 			}
