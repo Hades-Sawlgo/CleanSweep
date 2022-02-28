@@ -27,10 +27,10 @@ public class PowerManagementTest {
 	public static void initPowerManagement() {
 		final String className = "PowerManagementTest";
 		final String CONSTANT_FILE_PATH = "../clean-sweep/src/main/java/com/group9/cleansweep/properties/constant.properties";
-		
+
 		powerManagement = new PowerManagement();
-		 prop= new Properties();
-		
+		prop = new Properties();
+
 		try (InputStream input = new FileInputStream(CONSTANT_FILE_PATH)) {
 			prop.load(input);
 
@@ -76,7 +76,8 @@ public class PowerManagementTest {
 
 		String currentfloorPlanType = "LOW_PILE_CARPET";
 		String previousfloorPlanType = "BARE_FOOT";
-		assertEquals(Double.parseDouble(prop.getProperty("AVERAGE_UNIT_BAREFOOT_LOWPILE")), powerManagement.getAverageUnitOfCharge(currentfloorPlanType, previousfloorPlanType,prop));
+		assertEquals(Double.parseDouble(prop.getProperty("AVERAGE_UNIT_BAREFOOT_LOWPILE")),
+				powerManagement.getAverageUnitOfCharge(currentfloorPlanType, previousfloorPlanType, prop));
 
 	}
 
@@ -85,8 +86,8 @@ public class PowerManagementTest {
 		testName = "t3checkPowerLow";
 		printTestName(testName);
 
-		powerManagement
-				.checkIfMinimumPowerCapacityReached(Double.parseDouble(prop.getProperty("MINIMUM_POWER_CAPACITY")),prop);
+		powerManagement.checkIfMinimumPowerCapacityReached(
+				Double.parseDouble(prop.getProperty("MINIMUM_POWER_CAPACITY")), prop);
 	}
 
 }
