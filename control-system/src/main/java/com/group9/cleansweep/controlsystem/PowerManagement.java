@@ -55,7 +55,7 @@ public class PowerManagement {
 		if (previousTile != null && !(currentSurfaceType.equals(previousTile.getSurfaceType()))) {
 
 			previousSurfaceType = previousTile.getSurfaceType();
-			unitOfCharge = getAverageUnitOfCharge(currentSurfaceType, previousSurfaceType);
+			unitOfCharge = getAverageUnitOfCharge(currentSurfaceType, previousSurfaceType,properties);
 
 		} else
 			unitOfCharge = getUnitOfCharge(currentSurfaceType);
@@ -71,13 +71,13 @@ public class PowerManagement {
 		return UnitConsumedEnum.valueOf(floorPlanType).getUnitsConsumedPerFloorType();
 	}
 
-	public float getAverageUnitOfCharge(String currentFloorPlanType, String previousFloorPlanType) {
+	public double getAverageUnitOfCharge(String currentFloorPlanType, String previousFloorPlanType, Properties properties) {
 
 		float previousUnitOfCharge = UnitConsumedEnum.valueOf(previousFloorPlanType).getUnitsConsumedPerFloorType();
 
 		float currentCharge = UnitConsumedEnum.valueOf(currentFloorPlanType).getUnitsConsumedPerFloorType();
 
-		return (previousUnitOfCharge + currentCharge) / 2;
+		return (previousUnitOfCharge + currentCharge) /Double.parseDouble(properties.getProperty("AVERAGE_BY_TWO"));
 
 	}
 
@@ -85,7 +85,7 @@ public class PowerManagement {
 
 		double remainingBattery = Double.parseDouble(properties.getProperty("TOTAL_BATTERY_UNIT")) - currentPowerUnit;
 		String batteryPercent = df
-				.format((remainingBattery / Double.parseDouble(properties.getProperty("TOTAL_BATTERY_UNIT"))) * 100);
+				.format((remainingBattery / Double.parseDouble(properties.getProperty("TOTAL_BATTERY_UNIT"))) * Double.parseDouble(properties.getProperty("PERCENTAGE_VALUE")));
 		String loggerInfo = String.format("%n Battery Power Remaining: %s %% %n", batteryPercent);
 		logger.info(loggerInfo);
 

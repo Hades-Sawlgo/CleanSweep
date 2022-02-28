@@ -76,7 +76,7 @@ public class PowerManagementTest {
 
 		String currentfloorPlanType = "LOW_PILE_CARPET";
 		String previousfloorPlanType = "BARE_FOOT";
-		assertEquals(Double.parseDouble(prop.getProperty("AVERAGE_UNIT_BAREFOOT_LOWPILE")), powerManagement.getAverageUnitOfCharge(currentfloorPlanType, previousfloorPlanType));
+		assertEquals(Double.parseDouble(prop.getProperty("AVERAGE_UNIT_BAREFOOT_LOWPILE")), powerManagement.getAverageUnitOfCharge(currentfloorPlanType, previousfloorPlanType,prop));
 
 	}
 
