@@ -2,6 +2,8 @@ package com.group9.cleansweep.controlsystem;
 
 import com.group9.cleansweep.FloorPlan;
 import com.group9.cleansweep.Tile;
+import com.group9.cleansweep.enums.TileTypeEnum;
+
 import org.junit.Test;
 import org.springframework.test.util.ReflectionTestUtils;
 
@@ -17,7 +19,7 @@ public class NavigationTest {
         Tile primaryTile = new Tile();
 
         Tile externalTile = new Tile();
-        externalTile.setIsObstacle(true);
+        externalTile.setTileType(TileTypeEnum.OBSTACLE);;
         externalTile.setId("c3");
 
         primaryTile.setBottomNext(externalTile);

@@ -2,6 +2,8 @@ package com.group9.cleansweep.controlsystem;
 
 import com.group9.cleansweep.FloorPlan;
 import com.group9.cleansweep.Tile;
+import com.group9.cleansweep.enums.TileTypeEnum;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,7 +31,7 @@ public class Navigation {
 		// Set current position to the charging station.
 
 		for(Map.Entry<String, Tile> entry : floorPlanMap.entrySet()){
-			if(entry.getValue().isChargingStation()) {
+			if(entry.getValue().getTileType() == TileTypeEnum.POWERSTATION) {
 				currentPos = entry.getValue();
 				currentPos.setRightNext(currentPos.getRightNext());
 				currentPos.setLeftNext(currentPos.getLeftNext());
@@ -144,7 +146,7 @@ public class Navigation {
 
 
 	private Boolean isObstacleRight(Tile currentPos) {
-		if(Boolean.TRUE.equals(currentPos.getRightNext().getObstacle())) {
+		if(currentPos.getRightNext().getTileType() == TileTypeEnum.OBSTACLE) {
 			String stringOutput = String.format("Detected tile %s as obstacle to the right. Checking Bottom Sensor.", currentPos.getRightNext().getId());
 			logger.info(stringOutput);
 			return true;
@@ -152,7 +154,7 @@ public class Navigation {
 	}
 
 	private Boolean isObstacleLeft(Tile currentPos) {
-		if(Boolean.TRUE.equals(currentPos.getLeftNext().getObstacle())) {
+		if(currentPos.getLeftNext().getTileType() == TileTypeEnum.OBSTACLE) {
 			String stringOutput = String.format("Detected tile %s as obstacle to the left. Checking Left Sensor.", currentPos.getLeftNext().getId());
 			logger.info(stringOutput);
 			return true;
@@ -160,7 +162,7 @@ public class Navigation {
 	}
 
 	private Boolean isObstacleTop(Tile currentPos) {
-		if(Boolean.TRUE.equals(currentPos.getTopNext().getObstacle())) {
+		if(currentPos.getTopNext().getTileType() == TileTypeEnum.OBSTACLE) {
 			String stringOutput = String.format("Detected tile %s as obstacle above. Checking Right Sensor.", currentPos.getTopNext().getId());
 			logger.info(stringOutput);
 			return true;
@@ -170,7 +172,7 @@ public class Navigation {
 	}
 
 	private Boolean isObstacleBottom(Tile currentPos) {
-		if(Boolean.TRUE.equals(currentPos.getBottomNext().getObstacle())) {
+		if(currentPos.getBottomNext().getTileType() == TileTypeEnum.OBSTACLE) {
 			String stringOutput = String.format("Detected tile %s as obstacle below. Checking Left Sensor.", currentPos.getBottomNext().getId());
 			logger.info(stringOutput);
 			return true;

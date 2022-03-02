@@ -2,6 +2,7 @@ package com.group9.cleansweep;
 
 
 import com.google.gson.annotations.Expose;
+import com.group9.cleansweep.enums.TileTypeEnum;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -17,12 +18,11 @@ public class Tile {
 	@Expose private String leftID;
 	@Expose private String topID;
 	@Expose private String bottomID;
-	@Expose private boolean isObstacle;
 
 	@Getter @Setter @Expose private String id;
 	@Getter @Setter @Expose private String surfaceType;
 	@Getter @Setter @Expose private int dirtAmount;
-	@Getter @Setter @Expose private boolean isChargingStation;
+	@Getter @Setter @Expose private TileTypeEnum tileType;
 	@Getter @Setter @Expose private boolean visited;
 	@Getter @Setter private Tile rightNext;
 	@Getter @Setter private Tile leftNext;
@@ -37,8 +37,7 @@ public class Tile {
 		this.topNext = null;
 		this.bottomNext = null;
 		this.dirtAmount = 0;
-		this.isChargingStation = false;
-		this.isObstacle = false;
+		this.tileType = TileTypeEnum.UNKNOWN;
 		this.visited = false;
 	}
 
@@ -78,13 +77,5 @@ public class Tile {
 		} else{
 			this.bottomID = tile.getBottomNext().id;
 		}
-	}
-	
-	public boolean getObstacle() {
-		return isObstacle;
-	}
-
-	public void setIsObstacle(boolean isObstacle) {
-		this.isObstacle = isObstacle;
 	}
 }

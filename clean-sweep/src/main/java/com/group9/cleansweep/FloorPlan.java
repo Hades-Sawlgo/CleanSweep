@@ -17,6 +17,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 import com.group9.cleansweep.enums.FloorPlanTypeEnum;
+import com.group9.cleansweep.enums.TileTypeEnum;
 
 public class FloorPlan {
 	
@@ -92,7 +93,10 @@ public class FloorPlan {
 				//setting tile to random floor type declared at top of class
 				tempTile.setSurfaceType(floorTypes[random.nextInt(floorTypes.length)]);
 				//tile is randomly an obstacle or not
-				tempTile.setIsObstacle(isObstacle[random.nextInt(isObstacle.length)]);
+				if(1 == random.nextInt(isObstacle.length)) {
+					tempTile.setTileType(TileTypeEnum.OBSTACLE);
+				}
+					
 				String tempID = axisX[i] + j;
 				tempTile.setId(tempID);
 				roomLayout.put(tempTile.getId(), tempTile);
@@ -113,7 +117,7 @@ public class FloorPlan {
 		
 		//get tile g3 in order to make it the the charging station
 		Tile chargingStation = roomLayout.get("d3");
-		chargingStation.setChargingStation(true);
+		chargingStation.setTileType(TileTypeEnum.POWERSTATION);
 		logger.info("Floor plan has successfully been built");
 	}
 	

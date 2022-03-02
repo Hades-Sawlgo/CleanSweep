@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
+import com.group9.cleansweep.enums.TileTypeEnum;
+
 class TileTest {
 
 	@Test
@@ -18,8 +20,7 @@ class TileTest {
 		assertEquals(null, tile.getTopNext());
 		assertEquals(null, tile.getBottomNext());
 		assertEquals(0, tile.getDirtAmount());
-		assertEquals(false, tile.isChargingStation());
-		assertEquals(false, tile.getObstacle());
+		assertEquals(TileTypeEnum.OPEN, tile.getTileType());
 		assertEquals(false, tile.isVisited());
 	}
 
