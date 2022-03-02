@@ -12,7 +12,6 @@ import org.slf4j.LoggerFactory;
 import com.group9.cleansweep.FloorPlan;
 import com.group9.cleansweep.Tile;
 import com.group9.cleansweep.enums.UnitConsumedEnum;
-import com.group9.sensor_simulator.FloorTypeSimulator;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -50,7 +49,6 @@ public class PowerManagement {
 		String previousSurfaceType = "";
 		String currentSurfaceType = "";
 		double unitOfCharge;
-		currentTile.setSurfaceType(FloorTypeSimulator.getInstance().getRandomFloorType());
 		currentSurfaceType = currentTile.getSurfaceType();
 		if (previousTile != null && !(currentSurfaceType.equals(previousTile.getSurfaceType()))) {
 
