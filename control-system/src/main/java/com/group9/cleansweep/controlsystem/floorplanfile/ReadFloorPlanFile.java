@@ -15,9 +15,8 @@ public class ReadFloorPlanFile {
         File file = new File(path);
         try(FileInputStream inputStream = new FileInputStream(file)){
             int size = inputStream.available();
-            byte[] buffer = new byte[size];
+            byte[] buffer = new byte[size];  
             inputStream.read(buffer);
-            inputStream.close();
             jsonString = new String(buffer, StandardCharsets.UTF_8);
             String[] lines = jsonString.split("\\[|]");
             int i = 0;
