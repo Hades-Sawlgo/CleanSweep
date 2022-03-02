@@ -18,7 +18,7 @@ public class NavigationTest {
 
         Tile externalTile = new Tile();
         externalTile.setIsObstacle(true);
-        externalTile.setID("c3");
+        externalTile.setId("c3");
 
         primaryTile.setBottomNext(externalTile);
         assertEquals(true, ReflectionTestUtils.invokeMethod(navigation, "isObstacleBottom", primaryTile));
