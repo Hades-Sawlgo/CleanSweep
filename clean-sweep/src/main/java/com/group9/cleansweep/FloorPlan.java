@@ -24,7 +24,7 @@ public class FloorPlan {
 	
 	//this keeps track of all the tiles in a room String is the ID of the tile
 	private final Map<String, Tile> roomLayout;
-	private final Boolean[] isObstacle = {true, false};
+	private final boolean[] isObstacle = {true, false};
 	private final String[] floorTypes = {"BARE_FOOT", "LOW_PILE_CARPET", "HIGH_PILE_CARPET"};
 	
 	//Dimension information on floor
@@ -37,6 +37,10 @@ public class FloorPlan {
 
 	public FloorPlan(){
 		this.roomLayout = new HashMap<>();
+	}
+	
+	public int[] getDimInfo() {
+		return new int[] {axisX.length, (axisYMax-axisYMin)+1};
 	}
 
 	public Map<String, Tile> getFloorPlanMap(){
@@ -59,17 +63,17 @@ public class FloorPlan {
 			//get ids from surrounding tiles, pull them from the room layout map and add the tile object to each one
 			for(Tile tile: floorTiles){
 				String[] surroundingTiles = tile.getSurroundingTileID();
-				if(surroundingTiles[0] != null){
-					tile.setRightNext(roomLayout.get(surroundingTiles[0]));
+				if(surroundingTiles[Tile.RIGHT_ID_INDEX] != null){
+					tile.setRightNext(roomLayout.get(surroundingTiles[Tile.RIGHT_ID_INDEX]));
 				}
-				if(surroundingTiles[1] != null){
-					tile.setLeftNext(roomLayout.get(surroundingTiles[1]));
+				if(surroundingTiles[Tile.LEFT_ID_INDEX] != null){
+					tile.setLeftNext(roomLayout.get(surroundingTiles[Tile.LEFT_ID_INDEX]));
 				}
-				if(surroundingTiles[2] != null){
-					tile.setTopNext(roomLayout.get(surroundingTiles[2]));
+				if(surroundingTiles[Tile.TOP_ID_INDEX] != null){
+					tile.setTopNext(roomLayout.get(surroundingTiles[Tile.TOP_ID_INDEX]));
 				}
-				if(surroundingTiles[3] != null){
-					tile.setBottomNext(roomLayout.get(surroundingTiles[3]));
+				if(surroundingTiles[Tile.BOTTOM_ID_INDEX] != null){
+					tile.setBottomNext(roomLayout.get(surroundingTiles[Tile.BOTTOM_ID_INDEX]));
 				}
 			}
 			logger.info("Floor plan successfully loaded from file");
@@ -90,7 +94,7 @@ public class FloorPlan {
 				//tile is randomly an obstacle or not
 				tempTile.setIsObstacle(isObstacle[random.nextInt(isObstacle.length)]);
 				String tempID = axisX[i] + j;
-				tempTile.setID(tempID);
+				tempTile.setId(tempID);
 				roomLayout.put(tempTile.getId(), tempTile);
 			}
 		}
@@ -144,14 +148,24 @@ public class FloorPlan {
 		}
 	}
 
-	public void writeFloorPlanToFile(){
+	public File writeFloorPlanToFile(){
+		String directory = "src/main/resources";
+		String filename = "SampleFloor" + UUID.randomUUID() +".json";
+		
+		return writeFloorPlanToFile(directory, filename);
+	}
+	
+	public File writeFloorPlanToFile(String directory, String fileName){
 		Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().serializeNulls().create();
 		Tile[] floorTiles = roomLayout.values().toArray(new Tile[0]);
+		File outputFile = null;
+		
 		for(Tile tile: floorTiles){
 			tile.setSurroundingTileID(tile);
 		}
 		try{
-			FileWriter writer = new FileWriter("src/main/java/com/group9/cleansweep/controlsystem/FloorPlanFile/SampleFloor" + UUID.randomUUID() +".json");
+			outputFile = new File(directory, fileName + UUID.randomUUID() +".json");
+			FileWriter writer = new FileWriter(outputFile);
 			gson.toJson(floorTiles, writer);
 			writer.flush();
 			writer.close();
@@ -159,6 +173,6 @@ public class FloorPlan {
 		} catch (Exception e){
 			logger.error("An erro occured!", e);
 		}
-
+		return outputFile;
 	}
 }

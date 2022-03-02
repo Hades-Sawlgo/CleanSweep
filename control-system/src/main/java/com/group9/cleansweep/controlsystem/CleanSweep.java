@@ -34,7 +34,7 @@ public class CleanSweep {
 	int i;
 
 	public CleanSweep(){
-		// Empty constructor
+		list = new String[200];
 	}
 
 	public void doWork() {
@@ -45,7 +45,7 @@ public class CleanSweep {
 		previousTile = new Tile();
 		keepWorking = true;
 		isMinimumPowerCapacityReached=false;
-		list = new String[200];
+		
 		i = 0;
 
 		firstTile = navigation.currentPos;
@@ -98,7 +98,8 @@ public class CleanSweep {
 			previousTile = nextTile;
 			for (int g = 0; g < list.length; g++) {
 				if (nextTile.getId().equals(list[g])) {
-					logger.info("We've encountered multiple isVisited tiles in a row.  Returning to Power Station at the end of this cycle.");
+					logger.info("We've encountered multiple isVisited tiles in a row.");
+					logger.info("Returning to Power Station at the end of this cycle.");
 					previousTile = firstTile;
 					break;
 				}

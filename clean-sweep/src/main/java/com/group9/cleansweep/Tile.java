@@ -3,24 +3,33 @@ package com.group9.cleansweep;
 
 import com.google.gson.annotations.Expose;
 
+import lombok.Getter;
+import lombok.Setter;
+
+
 public class Tile {
-	@Expose private String id;
-	@Expose private String surfaceType;
-	@Expose private Boolean isObstacle;
-	@Expose private int dirtAmount;
-	@Expose private boolean isChargingStation;
-	@Expose private boolean visited;
+	public static final int RIGHT_ID_INDEX = 0;
+	public static final int LEFT_ID_INDEX = 1;
+	public static final int TOP_ID_INDEX = 2;
+	public static final int BOTTOM_ID_INDEX = 3;
+	
 	@Expose private String rightID;
 	@Expose private String leftID;
 	@Expose private String topID;
 	@Expose private String bottomID;
-	private Tile rightNext;
-	private Tile leftNext;
-	private Tile topNext;
-	private Tile bottomNext;
+	@Expose private boolean isObstacle;
 
-	
-	 public Tile() {
+	@Getter @Setter @Expose private String id;
+	@Getter @Setter @Expose private String surfaceType;
+	@Getter @Setter @Expose private int dirtAmount;
+	@Getter @Setter @Expose private boolean isChargingStation;
+	@Getter @Setter @Expose private boolean visited;
+	@Getter @Setter private Tile rightNext;
+	@Getter @Setter private Tile leftNext;
+	@Getter @Setter private Tile topNext;
+	@Getter @Setter private Tile bottomNext;
+
+	public Tile() {
 		this.id = null;
 		this.surfaceType = null;
 		this.leftNext = null;
@@ -33,8 +42,16 @@ public class Tile {
 		this.visited = false;
 	}
 
+	// This is used instead of a general getter to limit its used and encourage xxxxNext attributes.
 	public String[] getSurroundingTileID(){
-		return new String[]{rightID, leftID, topID, bottomID};
+		String[] string = new String[4];
+		
+		string[RIGHT_ID_INDEX] = rightID;
+		string[LEFT_ID_INDEX] = leftID;
+		string[TOP_ID_INDEX] = topID;
+		string[BOTTOM_ID_INDEX] = bottomID;
+		
+		return string;
 	}
 
 	public void setSurroundingTileID(Tile tile){
@@ -62,87 +79,12 @@ public class Tile {
 			this.bottomID = tile.getBottomNext().id;
 		}
 	}
-
-	public void setSurfaceType(String surfaceType){
-		this.surfaceType = surfaceType;
-	}
-
-	public void setLeftNext(Tile leftNext){
-		this.leftNext = leftNext;
-	}
-
-	public void setRightNext(Tile rightTile){
-		rightNext = rightTile;
-	}
-
-	public void setTopNext(Tile topNext){
-		this.topNext = topNext;
-	}
-
-	public void setBottomNext(Tile bottomNext){
-		this.bottomNext = bottomNext;
-	}
-
-	public void setDirtAmount(int dirtAmount){
-		this.dirtAmount = dirtAmount;
-	}
-
-	public void setChargingStation(Boolean isChargingStation){
-		this.isChargingStation = isChargingStation;
-	}
-
-	public void setIsObstacle(Boolean isObstacle){
-		this.isObstacle = isObstacle;
-	}
-
-	public void setID(String id){
-		this.id = id;
-	}
-
-	public void setVisited(boolean visited) {
-		this.visited = visited;
-	}
-
-
-	public String getSurfaceType() {
-		return surfaceType;
-	}
-
-	public int getDirtAmount() {
-		return dirtAmount;
-	}
-
-	public boolean isChargingStation() {
-		return isChargingStation;
-	}
-
-	public boolean isVisited() {
-		return visited;
-	}
-
-	public Tile getRightNext() {
-		return rightNext;
-	}
-
-	public Tile getLeftNext() {
-		return leftNext;
-	}
-
-	public Tile getTopNext() {
-		return topNext;
-	}
-
-	public Tile getBottomNext() {
-		return bottomNext;
-	}
-
-	public String getId() {
-		return id;
-	}
-
-	public Boolean getObstacle() {
+	
+	public boolean getObstacle() {
 		return isObstacle;
 	}
 
-
+	public void setIsObstacle(boolean isObstacle) {
+		this.isObstacle = isObstacle;
+	}
 }
