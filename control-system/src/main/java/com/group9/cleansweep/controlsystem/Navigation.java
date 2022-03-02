@@ -44,7 +44,7 @@ public class Navigation {
 		return traverseTop(target);
 	}
 
-	private Tile traverseTop(Tile target) {
+	public Tile traverseTop(Tile target) {
 		try {
 			if (Boolean.TRUE.equals(isObstacleTop(target))) {
 				return traverseRight(target);
@@ -68,7 +68,7 @@ public class Navigation {
 		}
 	}
 
-	private Tile traverseRight(Tile target) {
+	public Tile traverseRight(Tile target) {
 		try {
 			if (Boolean.TRUE.equals(isObstacleRight(target))) {
 				return traverseBottom(target);
@@ -92,7 +92,7 @@ public class Navigation {
 		}
 	}
 
-	private Tile traverseBottom(Tile target){
+	public Tile traverseBottom(Tile target){
 		try {
 			if (Boolean.TRUE.equals(isObstacleBottom(target))) {
 				return traverseLeft(target);
@@ -116,7 +116,7 @@ public class Navigation {
 		}
 	}
 
-	private Tile traverseLeft(Tile target) {
+	public Tile traverseLeft(Tile target) {
 		try {
 			if (Boolean.TRUE.equals(isObstacleLeft(target))) {
 				logger.info("Clean Sweep encountered an obstacle on all sides. Stopping.");
@@ -143,7 +143,7 @@ public class Navigation {
 
 
 
-	private Boolean isObstacleRight(Tile currentPos) {
+	public Boolean isObstacleRight(Tile currentPos) {
 		if(Boolean.TRUE.equals(currentPos.getRightNext().getObstacle())) {
 			String stringOutput = String.format("Detected tile %s as obstacle to the right. Checking Bottom Sensor.", currentPos.getRightNext().getId());
 			logger.info(stringOutput);
@@ -151,15 +151,14 @@ public class Navigation {
 		} else return false;
 	}
 
-	private Boolean isObstacleLeft(Tile currentPos) {
+	public Boolean isObstacleLeft(Tile currentPos) {
 		if(Boolean.TRUE.equals(currentPos.getLeftNext().getObstacle())) {
 			String stringOutput = String.format("Detected tile %s as obstacle to the left. Checking Left Sensor.", currentPos.getLeftNext().getId());
 			logger.info(stringOutput);
 			return true;
 		} else return false;
 	}
-
-	private Boolean isObstacleTop(Tile currentPos) {
+	public Boolean isObstacleTop(Tile currentPos) {
 		if(Boolean.TRUE.equals(currentPos.getTopNext().getObstacle())) {
 			String stringOutput = String.format("Detected tile %s as obstacle above. Checking Right Sensor.", currentPos.getTopNext().getId());
 			logger.info(stringOutput);
@@ -169,7 +168,7 @@ public class Navigation {
 		}
 	}
 
-	private Boolean isObstacleBottom(Tile currentPos) {
+	public Boolean isObstacleBottom(Tile currentPos) {
 		if(Boolean.TRUE.equals(currentPos.getBottomNext().getObstacle())) {
 			String stringOutput = String.format("Detected tile %s as obstacle below. Checking Left Sensor.", currentPos.getBottomNext().getId());
 			logger.info(stringOutput);
