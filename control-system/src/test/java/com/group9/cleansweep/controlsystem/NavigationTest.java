@@ -31,7 +31,7 @@ public class NavigationTest {
 	@BeforeClass
 	public static void initDirtDetection() {
 		final String className = "NavigationTest";
-		
+
 		floorPlan = new FloorPlan();
 		floorPlan.buildGenericFloorPlan();
 		floorPlanMap = floorPlan.getFloorPlanMap();
@@ -51,12 +51,11 @@ public class NavigationTest {
 	}
 
 	public Tile temporartTileObject() {
-		JSONObject jsonObject;
 		Gson gson = new Gson();
 
-		jsonObject = new JSONObject("{" + "id: a2," + "surfaceType: BARE_FOOT," + "isObstable: true," + "dirtAmount: 0,"
-				+ "isChargingStation: false," + "visited: false," + "rightID: a3," + "leftID: a1," + "topID: b1,"
-				+ "bottomID: b2" + "}");
+		JSONObject jsonObject = new JSONObject("{" + "id: a2," + "surfaceType: BARE_FOOT," + "isObstable: true,"
+				+ "dirtAmount: 0," + "isChargingStation: false," + "visited: false," + "rightID: a3," + "leftID: a1,"
+				+ "topID: b1," + "bottomID: b2" + "}");
 		return gson.fromJson(jsonObject.toString(), Tile.class);
 	}
 
@@ -67,10 +66,10 @@ public class NavigationTest {
 		printTestName(testName);
 
 		if (tile.getRightNext() == null)
-		tile.setRightNext(temporartTileObject());
+			tile.setRightNext(temporartTileObject());
 		tile.getRightNext().setIsObstacle(true);
 
-		assertEquals(true,navigation.isObstacleRight(tile));
+		assertEquals(true, navigation.isObstacleRight(tile));
 
 	}
 
@@ -81,10 +80,10 @@ public class NavigationTest {
 		printTestName(testName);
 
 		if (tile.getLeftNext() == null)
-		tile.setLeftNext(temporartTileObject());
+			tile.setLeftNext(temporartTileObject());
 		tile.getLeftNext().setIsObstacle(true);
 
-		assertEquals(true,navigation.isObstacleLeft(tile));
+		assertEquals(true, navigation.isObstacleLeft(tile));
 	}
 
 	@Test
@@ -94,10 +93,10 @@ public class NavigationTest {
 		printTestName(testName);
 
 		if (tile.getTopNext() == null)
-		tile.setTopNext(temporartTileObject());
+			tile.setTopNext(temporartTileObject());
 		tile.getTopNext().setIsObstacle(true);
 
-		assertEquals(true,navigation.isObstacleTop(tile));
+		assertEquals(true, navigation.isObstacleTop(tile));
 
 	}
 
@@ -111,7 +110,7 @@ public class NavigationTest {
 			tile.setBottomNext(temporartTileObject());
 		tile.getBottomNext().setIsObstacle(true);
 
-		assertEquals(true,navigation.isObstacleBottom(tile));
+		assertEquals(true, navigation.isObstacleBottom(tile));
 
 	}
 
