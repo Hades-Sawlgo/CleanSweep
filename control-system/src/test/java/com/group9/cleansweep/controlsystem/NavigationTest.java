@@ -30,7 +30,7 @@ public class NavigationTest {
 	private static Entry<String, Tile> floorPlanFirstTile;
 
 	@BeforeClass
-	public static void initDirtDetection() {
+	public static void initNavigationTest() {
 		final String className = "NavigationTest";
 
 		floorPlan = new FloorPlan();
