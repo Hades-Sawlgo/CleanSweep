@@ -9,8 +9,7 @@ import com.group9.cleansweep.enums.TileTypeEnum;
 class TileTest {
 
 	@Test
-	void testTile() {
-		
+	void constructorTest() {
 		Tile tile = new Tile();
 		
 		assertEquals(null, tile.getId());
@@ -25,12 +24,14 @@ class TileTest {
 	}
 
 	@Test
-	void testGetSurroundingTileID() {
+	void getSurroundingTileIDTest() {
+		Tile tile = new Tile();
+		
 		fail("Not yet implemented");
 	}
 
 	@Test
-	void testSetSurroundingTileID() {
+	void setSurroundingTileIDTest() {
 		fail("Not yet implemented");
 	}
 

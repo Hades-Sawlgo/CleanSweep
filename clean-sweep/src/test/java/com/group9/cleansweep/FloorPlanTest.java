@@ -8,13 +8,23 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 class FloorPlanTest {
 
+	static ArrayList<File> filesToDelete;
+	
+	@BeforeAll
+	 static void setup() {
+		filesToDelete = new ArrayList<File>();
+	}
+	
 	@Test
 	void convertFileToFloorPlanTest() {
 		
@@ -50,21 +60,85 @@ class FloorPlanTest {
 	}
 
 	@Test
-	void assignAdjacentTilesTest() {
-		fail("Not yet implemented");
+	void assignAdjacentTiles_noNulls_Test() {
+		FloorPlan floorPlan = createSimpleFloorPlan_withoutAssignments();
+		String[] axisX = floorPlan.getAxisX();
+		int axisYMin = floorPlan.getAxisYMin();
+		int axisYMax = floorPlan.getAxisYMax();
+		
+		int middleTileXidx = 1;
+		int middleTileYval = axisYMin+1;
+		
+		Map<String, Tile> roomLayout = floorPlan.getFloorPlanMap();
+		Tile middleTile = roomLayout.get(axisX[middleTileXidx] + middleTileYval);
+		
+		// the middle element is the second index in the x and y
+		floorPlan.assignAdjacentTiles(middleTile, middleTileXidx, middleTileYval);
+		
+		String topTileId = axisX[middleTileXidx] + (middleTileYval+1);
+		assertSame(
+				roomLayout.get(topTileId),
+				middleTile.getTopNext());
+		
+		String bottomTileId = axisX[middleTileXidx] + (middleTileYval-1);
+		assertSame(
+				roomLayout.get(bottomTileId),
+				middleTile.getBottomNext());
+		
+		String leftTileId = axisX[middleTileXidx-1] + middleTileYval;
+		assertSame(
+				roomLayout.get(leftTileId),
+				middleTile.getLeftNext());
+		
+		String rightTileId = axisX[middleTileXidx+1] + middleTileYval;
+		assertSame(
+				roomLayout.get(rightTileId),
+				middleTile.getRightNext());
+	}
+	
+	@Test
+	void assignAdjacentTiles_withNulls_Test() {
+		FloorPlan floorPlan = createSimpleFloorPlan_withoutAssignments();
+		String[] axisX = floorPlan.getAxisX();
+		int axisYMin = floorPlan.getAxisYMin();
+		int axisYMax = floorPlan.getAxisYMax();
+		
+		Map<String, Tile> roomLayout = floorPlan.getFloorPlanMap();
+		
+		int tgtTileXidx = 0;
+		int tgtTileYval = axisYMin;
+		
+		Tile tgtTile = roomLayout.get(axisX[tgtTileXidx] + axisYMin);
+		
+		// the middle element is the second index in the x and y
+		floorPlan.assignAdjacentTiles(tgtTile, tgtTileXidx, tgtTileYval);
+		
+		String topTileId = axisX[tgtTileXidx] + (tgtTileYval+1);
+		assertSame(
+				roomLayout.get(topTileId),
+				tgtTile.getTopNext());
+		
+		assertNull(tgtTile.getBottomNext());
+		
+		assertNull(tgtTile.getLeftNext());
+		
+		String rightTileId = axisX[tgtTileXidx+1] + tgtTileYval;
+		assertSame(
+				roomLayout.get(rightTileId),
+				tgtTile.getRightNext());
 	}
 
 	@Test
 	void writeFloorPlanToFileTest() throws FileNotFoundException {
 		
+		// write FloorPlan to file
 		FloorPlan floorPlan = new FloorPlan();
         floorPlan.buildGenericFloorPlan();
         int numOfTiles = floorPlan.getFloorPlanMap().size();
-        
-        String outputTestDir = (new File("src/test/resources/outputs/")).getAbsolutePath();
+        String outputTestDir = (new File("src\\test\\resources\\outputs\\")).getAbsolutePath();
         File outputFile = floorPlan.writeFloorPlanToFile(outputTestDir, "writeFloorPlanToFileTest");
     	
-        //create objects and import file
+        // Read floorPlan from file
 		Gson gson = new Gson();
 		BufferedReader br = new BufferedReader(new FileReader(outputFile));
 		//convert json file to tile array
@@ -72,14 +146,74 @@ class FloorPlanTest {
         
 		assertEquals(numOfTiles, floorTiles.length);
 	}
+
+	@Test
+	void writeFloorPlanToFile_noInput_Test() throws FileNotFoundException {
+		
+		// write FloorPlan to file
+		FloorPlan floorPlan = new FloorPlan();
+        floorPlan.buildGenericFloorPlan();
+        int numOfTiles = floorPlan.getFloorPlanMap().size();
+        File outputFile = floorPlan.writeFloorPlanToFile();
+        filesToDelete.add(outputFile);
+    	
+        // Same test from writeFloorPlanToFileTest()
+		Gson gson = new Gson();
+		BufferedReader br = new BufferedReader(new FileReader(outputFile));
+		Tile[] floorTiles = gson.fromJson(br, Tile[].class);
+		assertEquals(numOfTiles, floorTiles.length);
+		
+		// Test the file location is correct
+		String outputTestDir = outputFile.getAbsolutePath();
+
+		assertTrue(outputTestDir.contains(floorPlan.getDefaultDirectory() + "\\" + floorPlan.getDefaultFilename()));
+	}
+	
+	@Test
+	void constructor_withArgs_Test() {
+		Map<String, Tile> roomLayout = new HashMap<>();
+		String[] axisX = new String []{"a", "b", "c", "d"};
+		int axisYMin = 4;
+		int axisYMax = 7;
+		FloorPlan floorPlan = new FloorPlan(roomLayout, axisX, axisYMin, axisYMax);
+		
+		assertSame(roomLayout, floorPlan.getFloorPlanMap());
+		assertEquals(axisX, floorPlan.getAxisX());
+		assertEquals(axisYMin, floorPlan.getAxisYMin());
+		assertEquals(axisYMax, floorPlan.getAxisYMax());
+		
+	}
+	
+	FloorPlan createSimpleFloorPlan_withoutAssignments() {
+		String[] axisX = {"b", "c", "d"};
+		int axisYMin = 4;
+		int axisYMax = axisYMin+2;
+		Map<String, Tile> roomLayout = new HashMap<>();
+		
+		Tile tile;
+		
+		for (int y=axisYMin; y<=axisYMax; y++) {
+			for(int x=0; x<axisX.length; x++) {
+				tile = new Tile();
+				tile.setId(axisX[x] + y);
+				roomLayout.put(tile.getId(), tile);
+			}
+		}
+		
+		return new FloorPlan(roomLayout, axisX, axisYMin, axisYMax);
+	}
 	
 	@AfterAll
 	static void cleanOutputTestingFolder() {
-		File dir = new File("src/test/resources/outputs/");
-	    for (File file:dir.listFiles()) {
-	        file.delete();
+		File dir = new File("src/test/resources/outputs");
+	    for (File file : dir.listFiles()) {
+	    	if(file.getAbsolutePath().contains(".json")) {
+	    		file.delete();
+	    	}
 	    }
-	    dir.delete();
+	    for (File file : filesToDelete) {
+	    	file.delete();
+	    }
 	}
 
 }

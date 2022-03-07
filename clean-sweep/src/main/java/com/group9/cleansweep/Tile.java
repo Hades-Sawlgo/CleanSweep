@@ -2,6 +2,7 @@ package com.group9.cleansweep;
 
 
 import com.google.gson.annotations.Expose;
+import com.group9.cleansweep.enums.SurfaceTypeEnum;
 import com.group9.cleansweep.enums.TileTypeEnum;
 
 import lombok.Getter;
@@ -20,7 +21,7 @@ public class Tile {
 	@Expose private String bottomID;
 
 	@Getter @Setter @Expose private String id;
-	@Getter @Setter @Expose private String surfaceType;
+	@Getter @Setter @Expose private SurfaceTypeEnum surfaceType;
 	@Getter @Setter @Expose private int dirtAmount;
 	@Getter @Setter @Expose private TileTypeEnum tileType;
 	@Getter @Setter @Expose private boolean visited;
@@ -37,7 +38,7 @@ public class Tile {
 		this.topNext = null;
 		this.bottomNext = null;
 		this.dirtAmount = 0;
-		this.tileType = TileTypeEnum.UNKNOWN;
+		this.tileType = TileTypeEnum.OPEN;
 		this.visited = false;
 	}
 
