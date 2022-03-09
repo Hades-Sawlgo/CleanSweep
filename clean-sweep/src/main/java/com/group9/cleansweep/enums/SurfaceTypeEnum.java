@@ -6,8 +6,18 @@ import java.util.Collections;
 import java.util.List;
 
 public enum SurfaceTypeEnum {
-	// TODO: fix this, its is too similar to UnitConsumedEnum and the constant.properties file
-	BARE_FOOT, LOW_PILE_CARPET, HIGH_PILE_CARPET;
+	BARE_FOOT(1), LOW_PILE_CARPET(2), HIGH_PILE_CARPET(3);
+	
+	// units of power consumed
+	private int units;
+
+	SurfaceTypeEnum(int units) {
+		this.units = units;
+	}
+
+	public int getUnitsConsumed() {
+		return units;
+	}
 	
 	private static final SecureRandom RANDOM = new SecureRandom();
 	

@@ -15,7 +15,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.group9.cleansweep.enums.SurfaceTypeEnum;
-import com.group9.cleansweep.enums.UnitConsumedEnum;
 
 @TestMethodOrder(MethodOrderer.Alphanumeric.class)
 public class PowerManagementTest {
@@ -59,13 +58,12 @@ public class PowerManagementTest {
 		testName = "t1checkUnitOfPowerManagement";
 		printTestName(testName);
 
-		assertEquals(Double.parseDouble(prop.getProperty("BARE_FOOT_UNIT_OF_CHARGE")),
+		assertEquals(Double.valueOf(SurfaceTypeEnum.BARE_FOOT.getUnitsConsumed()),
 				powerManagement.getUnitOfCharge(SurfaceTypeEnum.BARE_FOOT));
-		assertEquals(Double.parseDouble(prop.getProperty("LOW_PILE_CARPET_UNIT_OF_CHARGE")),
+		assertEquals(Double.valueOf(SurfaceTypeEnum.LOW_PILE_CARPET.getUnitsConsumed()),
 				powerManagement.getUnitOfCharge(SurfaceTypeEnum.LOW_PILE_CARPET));
-		assertEquals(Double.parseDouble(prop.getProperty("HIGH_PILE_CARPET_UNIT_OF_CHARGE")),
+		assertEquals(Double.valueOf(SurfaceTypeEnum.HIGH_PILE_CARPET.getUnitsConsumed()),
 				powerManagement.getUnitOfCharge(SurfaceTypeEnum.HIGH_PILE_CARPET));
-
 	}
 
 	@Test
@@ -76,8 +74,8 @@ public class PowerManagementTest {
 		SurfaceTypeEnum secondVal = SurfaceTypeEnum.BARE_FOOT;
 		
 		double expectedVal = 
-				(UnitConsumedEnum.valueOf(firstVal.toString()).getUnitsConsumedPerSurfaceType() 
-						+ UnitConsumedEnum.valueOf(secondVal.toString()).getUnitsConsumedPerSurfaceType()) 
+				(Double.valueOf(firstVal.getUnitsConsumed())
+						+ Double.valueOf(secondVal.getUnitsConsumed()))
 				/2;
 
 		assertEquals(expectedVal, powerManagement.getAverageUnitOfCharge(firstVal, secondVal));

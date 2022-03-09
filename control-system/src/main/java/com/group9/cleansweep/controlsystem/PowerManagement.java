@@ -12,7 +12,6 @@ import org.slf4j.LoggerFactory;
 import com.group9.cleansweep.FloorPlan;
 import com.group9.cleansweep.Tile;
 import com.group9.cleansweep.enums.SurfaceTypeEnum;
-import com.group9.cleansweep.enums.UnitConsumedEnum;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -64,13 +63,13 @@ public class PowerManagement {
 
 	public float getUnitOfCharge(SurfaceTypeEnum surfaceTypeEnum) {
 
-		return UnitConsumedEnum.valueOf(surfaceTypeEnum.toString()).getUnitsConsumedPerSurfaceType();
+		return surfaceTypeEnum.getUnitsConsumed();
 	}
 
 	public double getAverageUnitOfCharge(SurfaceTypeEnum currentSurfaceTypeEnum, SurfaceTypeEnum previousSurfaceTypeEnum) {
 
-		float previousUnitOfCharge = UnitConsumedEnum.valueOf(previousSurfaceTypeEnum.toString()).getUnitsConsumedPerSurfaceType();
-		float currentCharge = UnitConsumedEnum.valueOf(currentSurfaceTypeEnum.toString()).getUnitsConsumedPerSurfaceType();
+		float previousUnitOfCharge = previousSurfaceTypeEnum.getUnitsConsumed();
+		float currentCharge = currentSurfaceTypeEnum.getUnitsConsumed();
 
 		return (previousUnitOfCharge + currentCharge) / 2;
 
