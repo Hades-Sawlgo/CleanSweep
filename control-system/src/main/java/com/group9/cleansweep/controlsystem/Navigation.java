@@ -21,6 +21,7 @@ public class Navigation {
 	Tile currentPos = new Tile();
 	FloorPlan floorPlan;
 	Map<String, Tile> floorPlanMap;
+	Tile previousPos;
 
 	public Navigation(FloorPlan floorPlan) {
 		this.visited = new ArrayDeque<>();
@@ -179,10 +180,16 @@ public class Navigation {
 		} else return false;
 	}
 
-	public boolean isCycleComplete() {
+	public boolean isCycleComplete(Tile currentPos, Tile previousTile) {
 		Tile checkTile;
 		Tile[] allTiles = floorPlan.getFloorPlanMap().values().toArray(new Tile[floorPlan.getFloorPlanMap().values().size()]);
-		for (int i = 0; i < allTiles.length; ) {
+		
+		// If sweeper gets back to the power station
+		if(currentPos.equals(previousTile) && (TileTypeEnum.POWERSTATION == currentPos.getTileType())) {
+			return true;
+		}
+		
+		for (int i = 0; i < allTiles.length; i++) {
 			checkTile = allTiles[i];
 			if (!checkTile.isVisited())
 				return false;

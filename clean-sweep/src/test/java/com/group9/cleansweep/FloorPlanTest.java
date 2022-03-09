@@ -64,7 +64,6 @@ class FloorPlanTest {
 		FloorPlan floorPlan = createSimpleFloorPlan_withoutAssignments();
 		String[] axisX = floorPlan.getAxisX();
 		int axisYMin = floorPlan.getAxisYMin();
-		int axisYMax = floorPlan.getAxisYMax();
 		
 		int middleTileXidx = 1;
 		int middleTileYval = axisYMin+1;
@@ -101,7 +100,6 @@ class FloorPlanTest {
 		FloorPlan floorPlan = createSimpleFloorPlan_withoutAssignments();
 		String[] axisX = floorPlan.getAxisX();
 		int axisYMin = floorPlan.getAxisYMin();
-		int axisYMax = floorPlan.getAxisYMax();
 		
 		Map<String, Tile> roomLayout = floorPlan.getFloorPlanMap();
 		
@@ -129,7 +127,7 @@ class FloorPlanTest {
 	}
 
 	@Test
-	void writeFloorPlanToFileTest() throws FileNotFoundException {
+	void writeFloorPlanToFile_withInputs_Test() throws FileNotFoundException {
 		
 		// write FloorPlan to file
 		FloorPlan floorPlan = new FloorPlan();

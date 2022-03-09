@@ -13,7 +13,9 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.security.SecureRandom;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import com.group9.cleansweep.enums.SurfaceTypeEnum;
@@ -61,6 +63,12 @@ public class FloorPlan {
 	public Map<String, Tile> getFloorPlanMap(){
 		return roomLayout;
 	}
+	
+	public Tile getRandomTile() {
+		List<Tile> values = new ArrayList<>(roomLayout.values());
+		
+		return values.get(random.nextInt(values.size()));
+	}
 
 	public void convertFileToFloorplan(String fileLocation){
 		try {
@@ -99,6 +107,8 @@ public class FloorPlan {
 
 	public void buildGenericFloorPlan(){
 
+		double chanceOfObstacle = 0.2;
+		
 		//these loops create the tiles and add them to the map
 		for(int i = 0; i < axisX.length; i++){
 			for(int j = axisYMin; j <= axisYMax; j++ ){
@@ -106,7 +116,7 @@ public class FloorPlan {
 				//setting tile to random floor type declared at top of class
 				tempTile.setSurfaceType(SurfaceTypeEnum.getRandomEnum());
 				//tile is randomly an obstacle or not
-				if(random.nextBoolean()) {
+				if(random.nextInt(100) <= (chanceOfObstacle*100)) {
 					tempTile.setTileType(TileTypeEnum.OBSTACLE);
 				}
 					
@@ -129,7 +139,7 @@ public class FloorPlan {
 		}
 		
 		//get tile g3 in order to make it the the charging station
-		Tile chargingStation = roomLayout.get("d3");
+		Tile chargingStation = getRandomTile();
 		chargingStation.setTileType(TileTypeEnum.POWERSTATION);
 		logger.info("Floor plan has successfully been built");
 	}
