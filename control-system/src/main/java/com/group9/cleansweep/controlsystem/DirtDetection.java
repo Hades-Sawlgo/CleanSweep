@@ -1,7 +1,5 @@
 package com.group9.cleansweep.controlsystem;
 
-import java.util.Map;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,10 +31,11 @@ public class DirtDetection {
 	@Setter
 	private boolean isMinimumPowerCapacityReached = false;
 
-	public Map<String, Tile> setRandomDirt(FloorPlan floorPlan) {
+	public void setRandomDirt(FloorPlan floorPlan) {
 
 		DirtSensor dirtSensor = new DirtSensor();
-		return dirtSensor.setRandomDirt(floorPlan);
+		
+		dirtSensor.setRandomDirt(floorPlan);
 	}
 
 	public int cleanDirt(Tile tile, DirtDetection dirtDetection) {

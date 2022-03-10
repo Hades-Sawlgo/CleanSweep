@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 
 import com.group9.cleansweep.FloorPlan;
 import com.group9.cleansweep.Tile;
-import com.group9.cleansweep.enums.UnitConsumedEnum;
+import com.group9.cleansweep.enums.SurfaceTypeEnum;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -24,11 +24,7 @@ public class PowerManagement {
 
 	@Getter
 	@Setter
-	private UnitConsumedEnum unitConsumedEnum;
-
-	@Getter
-	@Setter
-	private FloorPlan floorPlanType;
+	private FloorPlan surfaceTypeEnum;
 
 	@Getter
 	@Setter
@@ -46,37 +42,36 @@ public class PowerManagement {
 			ex.printStackTrace();
 		}
 
-		String previousSurfaceType = "";
-		String currentSurfaceType = "";
+		SurfaceTypeEnum previousSurfaceType;
+		SurfaceTypeEnum currentSurfaceType;
 		double unitOfCharge;
 		currentSurfaceType = currentTile.getSurfaceType();
 		if (previousTile != null && !(currentSurfaceType.equals(previousTile.getSurfaceType()))) {
 
 			previousSurfaceType = previousTile.getSurfaceType();
-			unitOfCharge = getAverageUnitOfCharge(currentSurfaceType, previousSurfaceType, properties);
-
-		} else
+			unitOfCharge = getAverageUnitOfCharge(currentSurfaceType, previousSurfaceType);
+		} 
+		else {
 			unitOfCharge = getUnitOfCharge(currentSurfaceType);
-
+		}
+		
 		currentUnitOfCharge = currentUnitOfCharge + unitOfCharge + dirtAmount;
 
 		return checkIfMinimumPowerCapacityReached(currentUnitOfCharge, properties);
 
 	}
 
-	public float getUnitOfCharge(String floorPlanType) {
+	public float getUnitOfCharge(SurfaceTypeEnum surfaceTypeEnum) {
 
-		return UnitConsumedEnum.valueOf(floorPlanType).getUnitsConsumedPerFloorType();
+		return surfaceTypeEnum.getUnitsConsumed();
 	}
 
-	public double getAverageUnitOfCharge(String currentFloorPlanType, String previousFloorPlanType,
-			Properties properties) {
+	public double getAverageUnitOfCharge(SurfaceTypeEnum currentSurfaceTypeEnum, SurfaceTypeEnum previousSurfaceTypeEnum) {
 
-		float previousUnitOfCharge = UnitConsumedEnum.valueOf(previousFloorPlanType).getUnitsConsumedPerFloorType();
+		float previousUnitOfCharge = previousSurfaceTypeEnum.getUnitsConsumed();
+		float currentCharge = currentSurfaceTypeEnum.getUnitsConsumed();
 
-		float currentCharge = UnitConsumedEnum.valueOf(currentFloorPlanType).getUnitsConsumedPerFloorType();
-
-		return (previousUnitOfCharge + currentCharge) / Double.parseDouble(properties.getProperty("AVERAGE_BY_TWO"));
+		return (previousUnitOfCharge + currentCharge) / 2;
 
 	}
 

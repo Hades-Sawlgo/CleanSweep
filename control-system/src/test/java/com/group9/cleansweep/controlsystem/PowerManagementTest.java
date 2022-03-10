@@ -14,6 +14,8 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.group9.cleansweep.enums.SurfaceTypeEnum;
+
 @TestMethodOrder(MethodOrderer.Alphanumeric.class)
 public class PowerManagementTest {
 	private static Logger logger = LoggerFactory.getLogger(PowerManagementTest.class);
@@ -56,29 +58,27 @@ public class PowerManagementTest {
 		testName = "t1checkUnitOfPowerManagement";
 		printTestName(testName);
 
-		String currentfloorPlanType1 = "BARE_FOOT";
-		String currentfloorPlanType2 = "LOW_PILE_CARPET";
-		String currentfloorPlanType3 = "HIGH_PILE_CARPET";
-
-		assertEquals(Double.parseDouble(prop.getProperty("BARE_FOOT_UNIT_OF_CHARGE")),
-				powerManagement.getUnitOfCharge(currentfloorPlanType1));
-		assertEquals(Double.parseDouble(prop.getProperty("LOW_PILE_CARPET_UNIT_OF_CHARGE")),
-				powerManagement.getUnitOfCharge(currentfloorPlanType2));
-		assertEquals(Double.parseDouble(prop.getProperty("HIGH_PILE_CARPET_UNIT_OF_CHARGE")),
-				powerManagement.getUnitOfCharge(currentfloorPlanType3));
-
+		assertEquals(Double.valueOf(SurfaceTypeEnum.BARE_FOOT.getUnitsConsumed()),
+				powerManagement.getUnitOfCharge(SurfaceTypeEnum.BARE_FOOT));
+		assertEquals(Double.valueOf(SurfaceTypeEnum.LOW_PILE_CARPET.getUnitsConsumed()),
+				powerManagement.getUnitOfCharge(SurfaceTypeEnum.LOW_PILE_CARPET));
+		assertEquals(Double.valueOf(SurfaceTypeEnum.HIGH_PILE_CARPET.getUnitsConsumed()),
+				powerManagement.getUnitOfCharge(SurfaceTypeEnum.HIGH_PILE_CARPET));
 	}
 
 	@Test
 	public void t2AverageUnitOfPower() {
 		testName = "t2AverageUnitOfPower";
 		printTestName(testName);
+		SurfaceTypeEnum firstVal = SurfaceTypeEnum.LOW_PILE_CARPET;
+		SurfaceTypeEnum secondVal = SurfaceTypeEnum.BARE_FOOT;
+		
+		double expectedVal = 
+				(Double.valueOf(firstVal.getUnitsConsumed())
+						+ Double.valueOf(secondVal.getUnitsConsumed()))
+				/2;
 
-		String currentfloorPlanType = "LOW_PILE_CARPET";
-		String previousfloorPlanType = "BARE_FOOT";
-		assertEquals(Double.parseDouble(prop.getProperty("AVERAGE_UNIT_BAREFOOT_LOWPILE")),
-				powerManagement.getAverageUnitOfCharge(currentfloorPlanType, previousfloorPlanType, prop));
-
+		assertEquals(expectedVal, powerManagement.getAverageUnitOfCharge(firstVal, secondVal));
 	}
 
 	@Test

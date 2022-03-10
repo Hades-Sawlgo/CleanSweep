@@ -2,6 +2,8 @@ package com.group9.cleansweep.controlsystem;
 
 import com.group9.cleansweep.FloorPlan;
 import com.group9.cleansweep.Tile;
+import com.group9.cleansweep.enums.TileTypeEnum;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,6 +21,7 @@ public class Navigation {
 	Tile currentPos = new Tile();
 	FloorPlan floorPlan;
 	Map<String, Tile> floorPlanMap;
+	Tile previousPos;
 
 	public Navigation(FloorPlan floorPlan) {
 		this.visited = new ArrayDeque<>();
@@ -29,7 +32,7 @@ public class Navigation {
 		// Set current position to the charging station.
 
 		for(Map.Entry<String, Tile> entry : floorPlanMap.entrySet()){
-			if(entry.getValue().isChargingStation()) {
+			if(entry.getValue().getTileType() == TileTypeEnum.POWERSTATION) {
 				currentPos = entry.getValue();
 				currentPos.setRightNext(currentPos.getRightNext());
 				currentPos.setLeftNext(currentPos.getLeftNext());
@@ -144,7 +147,7 @@ public class Navigation {
 
 
 	public Boolean isObstacleRight(Tile currentPos) {
-		if(Boolean.TRUE.equals(currentPos.getRightNext().getObstacle())) {
+		if(currentPos.getRightNext().getTileType() == TileTypeEnum.OBSTACLE) {
 			String stringOutput = String.format("Detected tile %s as obstacle to the right. Checking Bottom Sensor.", currentPos.getRightNext().getId());
 			logger.info(stringOutput);
 			return true;
@@ -152,14 +155,15 @@ public class Navigation {
 	}
 
 	public Boolean isObstacleLeft(Tile currentPos) {
-		if(Boolean.TRUE.equals(currentPos.getLeftNext().getObstacle())) {
+		if(currentPos.getLeftNext().getTileType() == TileTypeEnum.OBSTACLE) {
 			String stringOutput = String.format("Detected tile %s as obstacle to the left. Checking Left Sensor.", currentPos.getLeftNext().getId());
 			logger.info(stringOutput);
 			return true;
 		} else return false;
 	}
+
 	public Boolean isObstacleTop(Tile currentPos) {
-		if(Boolean.TRUE.equals(currentPos.getTopNext().getObstacle())) {
+		if(currentPos.getTopNext().getTileType() == TileTypeEnum.OBSTACLE) {
 			String stringOutput = String.format("Detected tile %s as obstacle above. Checking Right Sensor.", currentPos.getTopNext().getId());
 			logger.info(stringOutput);
 			return true;
@@ -169,17 +173,23 @@ public class Navigation {
 	}
 
 	public Boolean isObstacleBottom(Tile currentPos) {
-		if(Boolean.TRUE.equals(currentPos.getBottomNext().getObstacle())) {
+		if(currentPos.getBottomNext().getTileType() == TileTypeEnum.OBSTACLE) {
 			String stringOutput = String.format("Detected tile %s as obstacle below. Checking Left Sensor.", currentPos.getBottomNext().getId());
 			logger.info(stringOutput);
 			return true;
 		} else return false;
 	}
 
-	public boolean isCycleComplete() {
+	public boolean isCycleComplete(Tile currentPos, Tile previousTile) {
 		Tile checkTile;
 		Tile[] allTiles = floorPlan.getFloorPlanMap().values().toArray(new Tile[floorPlan.getFloorPlanMap().values().size()]);
-		for (int i = 0; i < allTiles.length; ) {
+		
+		// If sweeper gets back to the power station
+		if(currentPos.equals(previousTile) && (TileTypeEnum.POWERSTATION == currentPos.getTileType())) {
+			return true;
+		}
+		
+		for (int i = 0; i < allTiles.length; i++) {
 			checkTile = allTiles[i];
 			if (!checkTile.isVisited())
 				return false;

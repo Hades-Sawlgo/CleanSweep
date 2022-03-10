@@ -1,4 +1,4 @@
-package com.group9.cleansweep.controlsystem.floorplanfile;
+package com.group9.cleansweep;
 
 import java.io.FileInputStream;
 import java.io.IOException;

@@ -17,6 +17,7 @@ import org.junit.jupiter.api.TestMethodOrder;
 import com.google.gson.Gson;
 import com.group9.cleansweep.FloorPlan;
 import com.group9.cleansweep.Tile;
+import com.group9.cleansweep.enums.TileTypeEnum;
 
 @TestMethodOrder(MethodOrderer.Alphanumeric.class)
 public class NavigationTest {
@@ -67,7 +68,7 @@ public class NavigationTest {
 
 		if (tile.getRightNext() == null)
 			tile.setRightNext(temporartTileObject());
-		tile.getRightNext().setIsObstacle(true);
+		tile.getRightNext().setTileType(TileTypeEnum.OBSTACLE);
 
 		assertEquals(true, navigation.isObstacleRight(tile));
 
@@ -81,7 +82,7 @@ public class NavigationTest {
 
 		if (tile.getLeftNext() == null)
 			tile.setLeftNext(temporartTileObject());
-		tile.getLeftNext().setIsObstacle(true);
+		tile.getLeftNext().setTileType(TileTypeEnum.OBSTACLE);
 
 		assertEquals(true, navigation.isObstacleLeft(tile));
 	}
@@ -94,7 +95,7 @@ public class NavigationTest {
 
 		if (tile.getTopNext() == null)
 			tile.setTopNext(temporartTileObject());
-		tile.getTopNext().setIsObstacle(true);
+		tile.getTopNext().setTileType(TileTypeEnum.OBSTACLE);
 
 		assertEquals(true, navigation.isObstacleTop(tile));
 
@@ -108,10 +109,9 @@ public class NavigationTest {
 
 		if (tile.getBottomNext() == null)
 			tile.setBottomNext(temporartTileObject());
-		tile.getBottomNext().setIsObstacle(true);
+		tile.getBottomNext().setTileType(TileTypeEnum.OBSTACLE);
 
 		assertEquals(true, navigation.isObstacleBottom(tile));
 
 	}
-
 }
