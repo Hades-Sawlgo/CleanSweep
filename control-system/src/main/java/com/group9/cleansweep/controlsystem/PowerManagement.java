@@ -50,11 +50,10 @@ public class PowerManagement {
 
 			previousSurfaceType = previousTile.getSurfaceType();
 			unitOfCharge = getAverageUnitOfCharge(currentSurfaceType, previousSurfaceType);
-		} 
-		else {
+		} else {
 			unitOfCharge = getUnitOfCharge(currentSurfaceType);
 		}
-		
+
 		currentUnitOfCharge = currentUnitOfCharge + unitOfCharge + dirtAmount;
 
 		return checkIfMinimumPowerCapacityReached(currentUnitOfCharge, properties);
@@ -66,7 +65,8 @@ public class PowerManagement {
 		return surfaceTypeEnum.getUnitsConsumed();
 	}
 
-	public double getAverageUnitOfCharge(SurfaceTypeEnum currentSurfaceTypeEnum, SurfaceTypeEnum previousSurfaceTypeEnum) {
+	public double getAverageUnitOfCharge(SurfaceTypeEnum currentSurfaceTypeEnum,
+			SurfaceTypeEnum previousSurfaceTypeEnum) {
 
 		float previousUnitOfCharge = previousSurfaceTypeEnum.getUnitsConsumed();
 		float currentCharge = currentSurfaceTypeEnum.getUnitsConsumed();

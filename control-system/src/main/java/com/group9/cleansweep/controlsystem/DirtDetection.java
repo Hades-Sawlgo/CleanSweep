@@ -34,7 +34,7 @@ public class DirtDetection {
 	public void setRandomDirt(FloorPlan floorPlan) {
 
 		DirtSensor dirtSensor = new DirtSensor();
-		
+
 		dirtSensor.setRandomDirt(floorPlan);
 	}
 
@@ -42,15 +42,15 @@ public class DirtDetection {
 		int dirtAmount = tile.getDirtAmount();
 		totalDirtCollected = dirtDetection.getTotalDirtCollected();
 		dirtCount = tile.getDirtAmount();
-		String sysOutput = String.format("Total Dirt Amount of tile %s : %s",tile.getId(),tile.getDirtAmount());
+		String sysOutput = String.format("Total Dirt Amount of tile %s : %s", tile.getId(), tile.getDirtAmount());
 		logger.info(sysOutput);
 		for (int i = dirtAmount; i >= 0; i--) {
 			if (tile.getDirtAmount() == 0) {
-				sysOutput=String.format("Tile %s : is completely clean",tile.getId());
+				sysOutput = String.format("Tile %s : is completely clean", tile.getId());
 				logger.info(sysOutput);
 				break;
 			} else {
-				sysOutput=String.format("Cleaning tile :%s",tile.getId());
+				sysOutput = String.format("Cleaning tile :%s", tile.getId());
 				logger.info(sysOutput);
 				dirtCount--;
 				totalDirtCollected++;
@@ -61,14 +61,13 @@ public class DirtDetection {
 					logger.info("DIRT TANK FULL !!!Please empty the dirt tank !!");
 					logger.info("-------------------------------------------------");
 					emptyDirtTank();
-				
 
 				}
 
 				tile.setDirtAmount(dirtCount);
-				String stringOutput = String.format("Current Dirt Amount of %s : %s",tile.getId(),dirtCount);
+				String stringOutput = String.format("Current Dirt Amount of %s : %s", tile.getId(), dirtCount);
 				logger.info(stringOutput);
-				
+
 			}
 
 		}

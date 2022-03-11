@@ -2,7 +2,6 @@ package com.group9.sensor_simulator;
 
 import java.util.Map;
 
-
 import com.group9.cleansweep.FloorPlan;
 import com.group9.cleansweep.Tile;
 

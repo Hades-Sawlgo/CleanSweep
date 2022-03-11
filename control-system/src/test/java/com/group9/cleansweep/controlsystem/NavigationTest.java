@@ -9,9 +9,9 @@ import java.util.Map.Entry;
 
 import org.json.JSONObject;
 import org.json.simple.parser.ParseException;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 
 import com.google.gson.Gson;
@@ -29,7 +29,7 @@ public class NavigationTest {
 	private static Map<String, Tile> floorPlanMap;
 	private static Entry<String, Tile> floorPlanFirstTile;
 
-	@BeforeClass
+	@BeforeAll
 	public static void initNavigationTest() {
 		final String className = "NavigationTest";
 
@@ -61,7 +61,7 @@ public class NavigationTest {
 	}
 
 	@Test
-	public void t1checkIsObstacleRight() {
+	void t1checkIsObstacleRight() {
 
 		testName = "t1checkIsObstacleRight";
 		printTestName(testName);
@@ -75,7 +75,7 @@ public class NavigationTest {
 	}
 
 	@Test
-	public void t2checkIsObstacleLeft() throws FileNotFoundException, IOException, ParseException {
+	void t2checkIsObstacleLeft() throws FileNotFoundException, IOException, ParseException {
 
 		testName = "t2checkIsObstacleLeft";
 		printTestName(testName);
@@ -88,7 +88,7 @@ public class NavigationTest {
 	}
 
 	@Test
-	public void t3checkIsObstacleTop() {
+	void t3checkIsObstacleTop() {
 
 		testName = "t3checkIsObstacleTop";
 		printTestName(testName);
@@ -102,7 +102,7 @@ public class NavigationTest {
 	}
 
 	@Test
-	public void t4checkIsObstacleBottom() {
+	void t4checkIsObstacleBottom() {
 
 		testName = "t4checkIsObstacleBottom";
 		printTestName(testName);

@@ -1,5 +1,6 @@
 package com.group9.cleansweep.controlsystem;
 
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.FileInputStream;
@@ -7,9 +8,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,7 +26,7 @@ public class PowerManagementTest {
 	private static String testName;
 	static String sysOutput = "";
 
-	@BeforeClass
+	@BeforeAll
 	public static void initPowerManagement() {
 		final String className = "PowerManagementTest";
 		final String CONSTANT_FILE_PATH = "../clean-sweep/src/main/java/com/group9/cleansweep/properties/constant.properties";
@@ -53,7 +54,7 @@ public class PowerManagementTest {
 	}
 
 	@Test
-	public void t1checkUnitOfPowerManagement() {
+	void t1checkUnitOfPowerManagement() {
 
 		testName = "t1checkUnitOfPowerManagement";
 		printTestName(testName);
@@ -67,27 +68,24 @@ public class PowerManagementTest {
 	}
 
 	@Test
-	public void t2AverageUnitOfPower() {
+	void t2AverageUnitOfPower() {
 		testName = "t2AverageUnitOfPower";
 		printTestName(testName);
 		SurfaceTypeEnum firstVal = SurfaceTypeEnum.LOW_PILE_CARPET;
 		SurfaceTypeEnum secondVal = SurfaceTypeEnum.BARE_FOOT;
-		
-		double expectedVal = 
-				(Double.valueOf(firstVal.getUnitsConsumed())
-						+ Double.valueOf(secondVal.getUnitsConsumed()))
-				/2;
+
+		double expectedVal = (Double.valueOf(firstVal.getUnitsConsumed())
+				+ Double.valueOf(secondVal.getUnitsConsumed())) / 2;
 
 		assertEquals(expectedVal, powerManagement.getAverageUnitOfCharge(firstVal, secondVal));
 	}
 
 	@Test
-	public void t3checkPowerLow() {
+	void t3checkPowerLow() {
 		testName = "t3checkPowerLow";
 		printTestName(testName);
+		assertTrue(powerManagement.checkIfMinimumPowerCapacityReached(245, prop));
 
-		powerManagement.checkIfMinimumPowerCapacityReached(
-				Double.parseDouble(prop.getProperty("MINIMUM_POWER_CAPACITY")), prop);
 	}
 
 }
