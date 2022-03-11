@@ -79,4 +79,30 @@ public class Tile {
 			this.bottomID = tile.getBottomNext().id;
 		}
 	}
+
+	public void setSurroundingTileID(){
+		if(this.getRightNext() == null){
+			this.rightID = null;
+		} else{
+			this.rightID = this.getRightNext().id;
+		}
+		
+		if(this.getLeftNext() == null){
+			this.leftID = null;
+		} else{
+			this.leftID = this.getLeftNext().id;
+		}
+		
+		if(this.getTopNext() == null){
+			this.topID = null;
+		} else{
+			this.topID = this.getTopNext().id;
+		}
+		
+		if(this.getBottomNext() == null){
+			this.bottomID = null;
+		} else{
+			this.bottomID = this.getBottomNext().id;
+		}
+	}
 }

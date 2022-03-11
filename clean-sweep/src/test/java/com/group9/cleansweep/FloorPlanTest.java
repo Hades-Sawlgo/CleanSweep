@@ -3,11 +3,15 @@ package com.group9.cleansweep;
 import static org.junit.jupiter.api.Assertions.*;
 
 import com.google.gson.Gson;
+import com.group9.cleansweep.enums.TileTypeEnum;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -19,6 +23,8 @@ import org.junit.jupiter.api.Test;
 class FloorPlanTest {
 
 	static ArrayList<File> filesToDelete;
+	static Path outputTestDir = Paths.get("src", "test", "resources", "outputs");
+    String fileName = "writeFloorPlanToFileTest";
 	
 	@BeforeAll
 	 static void setup() {
@@ -28,10 +34,8 @@ class FloorPlanTest {
 	@Test
 	void convertFileToFloorPlanTest() {
 		
-		String outputTestDir = (new File("src/test/resources/inputs/")).getAbsolutePath();
-		
 		FloorPlan floorPlan = new FloorPlan();
-		floorPlan.convertFileToFloorplan(outputTestDir + "/" + "convertFileToFloorPlanTest_7_by_7.json");
+		floorPlan.convertFileToFloorplan(new File("src/test/resources/inputs", "convertFileToFloorPlanTest_7_by_7.json"));
 		
 		int[] floorPlanDim = new int[] {7, 7};
 		int numNullTileExpected = (2*floorPlanDim[0]) + (2*floorPlanDim[1]);
@@ -55,15 +59,78 @@ class FloorPlanTest {
 	}
 
 	@Test
-	void buildGenericFloorPlanTest() {
-
+	void buildGenericFloorPlan_checkThatOnePowerStationWasAdded_Test() {
+		int numberOfPowerStations = 0;
+		
+		FloorPlan floorPlan = new FloorPlan();
+		floorPlan.buildGenericFloorPlan();
+		
+		for(Map.Entry<String, Tile> entry : floorPlan.getFloorPlanMap().entrySet()) {
+			if(entry.getValue().getTileType() == TileTypeEnum.POWERSTATION) {
+				numberOfPowerStations++;
+			}
+		}
+		assertEquals(1, numberOfPowerStations);
+	}
+	
+	@Test
+	void buildGenericFloorPlan_allTilesWereAssignedAdjacentIds_Test() {
+		int numberOfTilesWithAllNullAdjacentTiles = 0;
+				
+		FloorPlan floorPlan = new FloorPlan();
+		floorPlan.buildGenericFloorPlan();
+		
+		Tile tempTile;
+		
+		for(Map.Entry<String, Tile> entry : floorPlan.getFloorPlanMap().entrySet()) {
+			tempTile = entry.getValue();
+			if(
+					tempTile.getBottomNext() == null
+					&& tempTile.getTopNext() == null
+					&& tempTile.getLeftNext() == null
+					&& tempTile.getRightNext() == null) {
+				numberOfTilesWithAllNullAdjacentTiles++;
+			}
+		}
+		assertEquals(0, numberOfTilesWithAllNullAdjacentTiles);
+	}
+	
+	@Test
+	void buildGenericFloorPlan_correctNumberOfTilesWereAddedToFloorPlan_Test() {
+		int numberOfTilesWithoutASurfaceType = 0;
+		
+		FloorPlan floorPlan = new FloorPlan();
+		floorPlan.buildGenericFloorPlan();
+		
+		for(Map.Entry<String, Tile> entry : floorPlan.getFloorPlanMap().entrySet()) {
+			if(entry.getValue().getSurfaceType() == null){
+						numberOfTilesWithoutASurfaceType++;
+			}
+		}
+		assertEquals(0, numberOfTilesWithoutASurfaceType);
+	}
+	
+	@Test
+	void buildGenericFloorPlan_allTilesHaveASurfaceType_Test() {	
+		FloorPlan floorPlan = new FloorPlan();
+		floorPlan.buildGenericFloorPlan();
+		
+		int expectedTileCount = 
+				((floorPlan.getAxisYMax()-floorPlan.getAxisYMin())+1)
+				*floorPlan.getAxisX().length;
+		
+		int acutalTileCount = floorPlan.getFloorPlanMap().entrySet().size();
+		
+		assertEquals(expectedTileCount, acutalTileCount);
 	}
 
 	@Test
 	void assignAdjacentTiles_noNulls_Test() {
-		FloorPlan floorPlan = createSimpleFloorPlan_withoutAssignments();
-		String[] axisX = floorPlan.getAxisX();
-		int axisYMin = floorPlan.getAxisYMin();
+		String[] axisX = {"b", "c", "d"};
+		int axisYMin = 4;
+		int axisYMax = axisYMin+2;
+		
+		FloorPlan floorPlan = createSimpleFloorPlan_withoutAssignments(axisX, axisYMin, axisYMax);
 		
 		int middleTileXidx = 1;
 		int middleTileYval = axisYMin+1;
@@ -97,9 +164,11 @@ class FloorPlanTest {
 	
 	@Test
 	void assignAdjacentTiles_withNulls_Test() {
-		FloorPlan floorPlan = createSimpleFloorPlan_withoutAssignments();
-		String[] axisX = floorPlan.getAxisX();
-		int axisYMin = floorPlan.getAxisYMin();
+		String[] axisX = {"b", "c", "d"};
+		int axisYMin = 4;
+		int axisYMax = axisYMin+2;
+		
+		FloorPlan floorPlan = createSimpleFloorPlan_withoutAssignments(axisX, axisYMin, axisYMax);
 		
 		Map<String, Tile> roomLayout = floorPlan.getFloorPlanMap();
 		
@@ -133,8 +202,7 @@ class FloorPlanTest {
 		FloorPlan floorPlan = new FloorPlan();
         floorPlan.buildGenericFloorPlan();
         int numOfTiles = floorPlan.getFloorPlanMap().size();
-        String outputTestDir = (new File("src\\test\\resources\\outputs\\")).getAbsolutePath();
-        File outputFile = floorPlan.writeFloorPlanToFile(outputTestDir, "writeFloorPlanToFileTest");
+        File outputFile = floorPlan.writeFloorPlanToFile(outputTestDir, fileName);
     	
         // Read floorPlan from file
 		Gson gson = new Gson();
@@ -164,7 +232,7 @@ class FloorPlanTest {
 		// Test the file location is correct
 		String outputTestDir = outputFile.getAbsolutePath();
 
-		assertTrue(outputTestDir.contains(floorPlan.getDefaultDirectory() + "\\" + floorPlan.getDefaultFilename()));
+		assertTrue(outputTestDir.contains((new File(floorPlan.getDefaultDirectory().toString(),floorPlan.getDefaultFilename())).toString()));
 	}
 	
 	@Test
@@ -182,10 +250,7 @@ class FloorPlanTest {
 		
 	}
 	
-	FloorPlan createSimpleFloorPlan_withoutAssignments() {
-		String[] axisX = {"b", "c", "d"};
-		int axisYMin = 4;
-		int axisYMax = axisYMin+2;
+	public static FloorPlan createSimpleFloorPlan_withoutAssignments(String[] axisX, int axisYMin, int axisYMax) {
 		Map<String, Tile> roomLayout = new HashMap<>();
 		
 		Tile tile;
@@ -202,15 +267,17 @@ class FloorPlanTest {
 	}
 	
 	@AfterAll
-	static void cleanOutputTestingFolder() {
-		File dir = new File("src/test/resources/outputs");
+	static void cleanOutputTestingFolder() throws IOException {
+		File dir = new File(outputTestDir.toString());
 	    for (File file : dir.listFiles()) {
+	    	System.out.println(file.getAbsolutePath().toString());
 	    	if(file.getAbsolutePath().contains(".json")) {
-	    		file.delete();
+	    		file.getAbsoluteFile().delete();
 	    	}
 	    }
 	    for (File file : filesToDelete) {
-	    	file.delete();
+	    	System.out.println(file.getAbsolutePath().toString());
+	    	file.getAbsoluteFile().delete();
 	    }
 	}
 
