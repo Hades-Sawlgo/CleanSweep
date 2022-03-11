@@ -65,7 +65,6 @@ public class DirtDetectionTest {
 
 		dirtDetection.setRandomDirt(floorPlan);
 		for (Map.Entry<String, Tile> entry : floorPlan.getFloorPlanMap().entrySet()) {
-			// System.out.println(entry.getValue().getDirtAmount());
 			assertTrue((entry.getValue().getDirtAmount() >= 0));
 
 		}
@@ -103,6 +102,8 @@ public class DirtDetectionTest {
 		dirtDetection.setDirtCapacityFull(true);
 		dirtDetection.cleanDirt(firstTile, dirtDetection);
 		assertEquals(firstTile.getDirtAmount(), Integer.parseInt(properties.getProperty("IDEAL_DIRT_AMOUNT_PER_TILE")));
+		firstTile.setDirtAmount(-1);
+		dirtDetection.cleanDirt(firstTile, dirtDetection);
 	}
 
 	@Test
