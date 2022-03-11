@@ -7,10 +7,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.google.gson.Gson;
 import com.group9.cleansweep.enums.TileTypeEnum;
 
 public class InitFloorPlan {
+	private static Logger logger = LoggerFactory.getLogger(InitFloorPlan.class);
 	List<List<String>> initialFloorPlanObject;
 	String initFloorPlanJson;
 	static final String OBSTACLE = TileTypeEnum.OBSTACLE.toString();
@@ -22,7 +26,7 @@ public class InitFloorPlan {
 			properties.load(input);
 
 		} catch (IOException ex) {
-			ex.printStackTrace();
+			logger.error("An error occured!", ex);
 		}
 
 		

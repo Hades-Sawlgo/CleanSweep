@@ -1,38 +1,44 @@
 package com.group9.sensor_simulator;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.util.Map;
-
-
-import com.group9.cleansweep.FloorPlan;
-import com.group9.cleansweep.Tile;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import com.group9.cleansweep.FloorPlan;
+import com.group9.cleansweep.Tile;
 
 @TestMethodOrder(MethodOrderer.Alphanumeric.class)
 public class DirtSensorTest {
-
+	private static Logger logger = LoggerFactory.getLogger(DirtSensorTest.class);
+	static String sysOutput = "";
 	private static DirtSensor dirtSensor;
 	private static FloorPlan floorPlan;
 	private static String testName;
 
 	@BeforeAll
 	public static void initDirtSensor() {
+
 		final String className = "DirtSensorTest";
 		dirtSensor = new DirtSensor();
 		floorPlan = new FloorPlan();
-		System.out.println("************************************************************");
-		System.out.println("     " + className + " class getting executed");
-		System.out.println("************************************************************");
+		sysOutput = String.format("%s class getting executed", className);
+		logger.info("-------------------------------------------------");
+		logger.info(sysOutput);
+		logger.info("-------------------------------------------------");
+
 	}
 
 	public void printTestName(String testName) {
 
-		System.out.println(testName + " test method getting executed.....\n ");
+		sysOutput = String.format("%s test method getting executed.....\n", testName);
+		logger.info(sysOutput);
 
 	}
 
