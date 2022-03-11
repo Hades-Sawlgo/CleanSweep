@@ -39,7 +39,7 @@ public class PowerManagement {
 			properties.load(input);
 
 		} catch (IOException ex) {
-			ex.printStackTrace();
+			logger.error("An error occured!", ex);
 		}
 
 		SurfaceTypeEnum previousSurfaceType;

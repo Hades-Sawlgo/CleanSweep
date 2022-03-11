@@ -1,27 +1,35 @@
 package com.group9.sensor_simulator;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
-
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @TestMethodOrder(MethodOrderer.Alphanumeric.class)
 public class ObstacleSimulatorTest {
+	private static Logger logger = LoggerFactory.getLogger(ObstacleSimulatorTest.class);
 	private static String testName;
+	static String sysOutput = "";
 
 	@BeforeAll
 	public static void initObstacleSimulator() {
+
 		final String className = "ObstacleSimulatorTest";
-		System.out.println("************************************************************");
-		System.out.println("     " + className + " class getting executed");
-		System.out.println("************************************************************");
+		sysOutput = String.format("%s class getting executed", className);
+		logger.info("-------------------------------------------------");
+		logger.info(sysOutput);
+		logger.info("-------------------------------------------------");
+
 	}
 
 	public void printTestName(String testName) {
 
-		System.out.println(testName + " test method getting executed.....\n ");
+		sysOutput = String.format("%s test method getting executed.....\n", testName);
+		logger.info(sysOutput);
 
 	}
 

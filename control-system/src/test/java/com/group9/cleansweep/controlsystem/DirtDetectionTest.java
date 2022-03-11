@@ -14,13 +14,16 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.group9.cleansweep.FloorPlan;
 import com.group9.cleansweep.Tile;
 
 @TestMethodOrder(MethodOrderer.Alphanumeric.class)
 public class DirtDetectionTest {
-
+	private static Logger logger = LoggerFactory.getLogger(DirtDetectionTest.class);
+	static String sysOutput = "";
 	private static DirtDetection dirtDetection;
 	private static FloorPlan floorPlan;
 	private static String testName;
@@ -29,24 +32,28 @@ public class DirtDetectionTest {
 
 	@BeforeAll
 	public static void initDirtDetection() {
+
 		final String className = "DirtDetectionTest";
 
 		try (InputStream input = new FileInputStream(CONSTANT_FILE_PATH)) {
 			properties.load(input);
 
 		} catch (IOException ex) {
-			ex.printStackTrace();
+			logger.error("An error occured!", ex);
 		}
 		dirtDetection = new DirtDetection();
 		floorPlan = new FloorPlan();
-		System.out.println("************************************************************");
-		System.out.println("     " + className + " class getting executed");
-		System.out.println("************************************************************");
+		sysOutput = String.format("%s class getting executed", className);
+		logger.info("-------------------------------------------------");
+		logger.info(sysOutput);
+		logger.info("-------------------------------------------------");
+
 	}
 
 	public void printTestName(String testName) {
 
-		System.out.println(testName + " test method getting executed.....\n ");
+		sysOutput = String.format("%s test method getting executed.....\n", testName);
+		logger.info(sysOutput);
 
 	}
 

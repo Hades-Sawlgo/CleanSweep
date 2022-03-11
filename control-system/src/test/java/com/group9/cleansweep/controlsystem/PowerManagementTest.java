@@ -38,7 +38,7 @@ public class PowerManagementTest {
 			prop.load(input);
 
 		} catch (IOException ex) {
-			ex.printStackTrace();
+			logger.error("An error occured!", ex);
 		}
 		sysOutput = String.format("%s class getting executed", className);
 		logger.info("-------------------------------------------------");

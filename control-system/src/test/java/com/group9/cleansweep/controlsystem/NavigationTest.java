@@ -13,6 +13,8 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.gson.Gson;
 import com.group9.cleansweep.FloorPlan;
@@ -21,7 +23,8 @@ import com.group9.cleansweep.enums.TileTypeEnum;
 
 @TestMethodOrder(MethodOrderer.Alphanumeric.class)
 public class NavigationTest {
-
+	private static Logger logger = LoggerFactory.getLogger(NavigationTest.class);
+	static String sysOutput = "";
 	private static Navigation navigation;
 	private static FloorPlan floorPlan;
 	private static Tile tile;
@@ -31,6 +34,7 @@ public class NavigationTest {
 
 	@BeforeAll
 	public static void initNavigationTest() {
+
 		final String className = "NavigationTest";
 
 		floorPlan = new FloorPlan();
@@ -40,14 +44,17 @@ public class NavigationTest {
 		floorPlanFirstTile = floorPlanMap.entrySet().iterator().next();
 		tile = floorPlanFirstTile.getValue();
 
-		System.out.println("************************************************************");
-		System.out.println("     " + className + " class getting executed");
-		System.out.println("************************************************************");
+		sysOutput = String.format("%s class getting executed", className);
+		logger.info("-------------------------------------------------");
+		logger.info(sysOutput);
+		logger.info("-------------------------------------------------");
+
 	}
 
 	public void printTestName(String testName) {
 
-		System.out.println(testName + " test method getting executed.....\n ");
+		sysOutput = String.format("%s test method getting executed.....\n", testName);
+		logger.info(sysOutput);
 
 	}
 
