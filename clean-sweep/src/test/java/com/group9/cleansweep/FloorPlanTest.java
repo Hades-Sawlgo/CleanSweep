@@ -206,7 +206,7 @@ class FloorPlanTest {
     	
         // Read floorPlan from file
 		Gson gson = new Gson();
-		BufferedReader br = new BufferedReader(new FileReader(outputFile));
+		BufferedReader br = new BufferedReader(new FileReader(outputFile.getAbsoluteFile()));
 		//convert json file to tile array
 		Tile[] floorTiles = gson.fromJson(br, Tile[].class);
         
@@ -225,7 +225,7 @@ class FloorPlanTest {
     	
         // Same test from writeFloorPlanToFileTest()
 		Gson gson = new Gson();
-		BufferedReader br = new BufferedReader(new FileReader(outputFile));
+		BufferedReader br = new BufferedReader(new FileReader(outputFile.getAbsoluteFile()));
 		Tile[] floorTiles = gson.fromJson(br, Tile[].class);
 		assertEquals(numOfTiles, floorTiles.length);
 		
@@ -269,7 +269,7 @@ class FloorPlanTest {
 	@AfterAll
 	static void cleanOutputTestingFolder() throws IOException {
 		File dir = new File(outputTestDir.toString());
-	    for (File file : dir.listFiles()) {
+	    for (File file : dir.getAbsoluteFile().listFiles()) {
 	    	System.out.println(file.getAbsolutePath().toString());
 	    	if(file.getAbsolutePath().contains(".json")) {
 	    		file.getAbsoluteFile().delete();
