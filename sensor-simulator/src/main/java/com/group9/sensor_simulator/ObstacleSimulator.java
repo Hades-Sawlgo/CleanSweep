@@ -23,5 +23,4 @@ public class ObstacleSimulator {
         return randomBool[random.nextInt(randomBool.length)];
     }
 
-
 }
