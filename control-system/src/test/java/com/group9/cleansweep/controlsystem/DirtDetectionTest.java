@@ -28,13 +28,12 @@ public class DirtDetectionTest {
 	private static FloorPlan floorPlan;
 	private static String testName;
 	private static Properties properties = new Properties();
-	private static final String CONSTANT_FILE_PATH = "../clean-sweep/src/main/java/com/group9/cleansweep/properties/constant.properties";
 
 	@BeforeAll
 	public static void initDirtDetection() {
 
 		final String className = "DirtDetectionTest";
-
+		final String CONSTANT_FILE_PATH = "../clean-sweep/src/main/java/com/group9/cleansweep/properties/constant.properties";
 		try (InputStream input = new FileInputStream(CONSTANT_FILE_PATH)) {
 			properties.load(input);
 
