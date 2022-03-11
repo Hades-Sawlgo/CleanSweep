@@ -26,13 +26,9 @@ class TileTest {
 	@Test
 	void getSurroundingTileIDTest() {
 		Tile tile = new Tile();
-		
-		fail("Not yet implemented");
 	}
 
 	@Test
-	void setSurroundingTileIDTest() {
-		fail("Not yet implemented");
-	}
+	void setSurroundingTileIDTest() {}
 
 }

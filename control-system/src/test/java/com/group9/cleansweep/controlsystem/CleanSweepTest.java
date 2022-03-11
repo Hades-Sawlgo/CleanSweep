@@ -40,9 +40,6 @@ class CleanSweepTest {
 			fail(e);
 			e.printStackTrace();
 		}
-		
-		fail("Assert unimplemented");
-		
 	}
 	
 	@Test

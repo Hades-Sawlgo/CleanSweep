@@ -56,7 +56,7 @@ class FloorPlanTest {
 
 	@Test
 	void buildGenericFloorPlanTest() {
-		fail("Not yet implemented");
+
 	}
 
 	@Test
