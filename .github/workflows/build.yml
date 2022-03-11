@@ -5,9 +5,9 @@ name: SonarBuild
 # Controls when the workflow will run
 on:
   push:
-    branches: [ master ]
+    branches: [ codeSmell_anam ]
   pull_request:
-    branches: [ master ]
+    branches: [ codeSmell_anam ]
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
