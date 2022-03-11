@@ -1,11 +1,5 @@
 package com.group9.sensor_simulator;
 
-import java.util.Map;
-
-
-import com.group9.cleansweep.FloorPlan;
-import com.group9.cleansweep.Tile;
-
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
@@ -37,7 +31,6 @@ public class ObstacleSimulatorTest {
 		printTestName(testName);
 		ObstacleSimulator testSimulator = ObstacleSimulator.getInstance();
 		assertTrue((testSimulator != null));
-
 	}
 	
 	@Test
@@ -46,7 +39,7 @@ public class ObstacleSimulatorTest {
 		printTestName(testName);
 		ObstacleSimulator testSimulator = ObstacleSimulator.getInstance();
 		Boolean testRandomObstacle = testSimulator.getRandomObstacle();
-		assertTrue((testRandomObstacle = true));
+		assertTrue((testRandomObstacle));
 
 	}
 }
